@@ -1,0 +1,153 @@
+.sidebar {
+    width: 15%;
+    height: 94%;
+    background: #29272F;
+    transition: 300ms ease;
+    position: fixed;
+    top: 6%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+a { 
+    text-decoration:none;
+}
+
+.sidebar-header {
+    font-family: 'Bai Jamjuree', sans-serif;
+    color: #aaa;
+    font-size: 20px;
+    margin: 20px 20px;
+}
+.sidebar-item {
+    width: 100%;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    font-family: 'Roboto', sans-serif;
+}
+.sidebar-item i {
+    margin-right: 20px;
+
+}
+.sidebar-sub-item {
+    padding: 10px;
+    padding-left: 50px;
+    margin-bottom: 5px;
+}
+.sidebar-sub-item i {
+    margin-right: 10px;
+
+}
+.active {
+    background: #470FBC;
+
+}
+.content {
+    width: 85%;
+    height: 94%;
+    margin-left: 15%;
+    padding: 2% 5%;
+    position: absolute;
+    top: 6%;
+}
+.content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.hamb{
+    cursor: pointer;
+    float: right;
+    padding: 10px 10px;
+    margin-top: 0;
+}
+
+.hamb-line {
+    background: white;
+    display: block;
+    height: 2px;
+    position: relative;
+    width: 24px;
+
+} /* Style span tag */
+
+.hamb-line::before,
+.hamb-line::after{
+    background: white;
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 100%;
+}
+.hamb-line::before{
+    top: 8px;
+}
+.hamb-line::after{
+    top: -8px;
+}
+
+.side-menu {
+    display: none;
+}
+
+/* Toggle menu icon */
+.side-menu:checked ~ nav{
+    max-height: 100%;
+}
+.side-menu:checked ~ .hamb .hamb-line {
+    background: transparent;
+}
+.side-menu:checked ~ .hamb .hamb-line::before {
+    transform: rotate(-45deg);
+    top:0;
+}
+.side-menu:checked ~ .hamb .hamb-line::after {
+    transform: rotate(45deg);
+    top:0;
+}
+.hamb {
+    display: none;
+}
+
+
+.admin-heading {
+    display:flex;
+    justify-content:space-between;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+        width: 100%;
+        z-index: 20;
+        position: none;
+    }
+    .hamb {
+        display: block;
+
+    }
+    .top-nav-links {
+        display: none;
+
+    }
+    .content {
+        padding: 5%;
+        margin: 0;
+        width: 100vw;
+        position: relative;
+    }
+    .admin-heading {
+        flex-direction: column;
+    }
+}
