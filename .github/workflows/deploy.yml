@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install rsync
-        run: apt-get install rsync
+        run: sudo apt-get install rsync
 
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
@@ -22,6 +22,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.SSH_REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.SSH_REMOTE_USER }}
           TARGET: /www/
+
       - name: Run database migrations
         uses: appleboy/ssh-action@master
         with:
