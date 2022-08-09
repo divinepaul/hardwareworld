@@ -18,7 +18,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.SSH_REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.SSH_REMOTE_USER }}
-          TARGET: /www/
+          TARGET: /www/miniproject/
 
       - name: Run database migrations
         uses: appleboy/ssh-action@master
@@ -28,6 +28,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
           script: |
-            cd /www/minproject
+            cd /www/miniproject/
             dbmate up
 
