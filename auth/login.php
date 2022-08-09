@@ -6,7 +6,7 @@ include("../partials/header.php");
 ?>
 
 <div class="form-main">
-<h1> Login </h1>
+<h1> Sign in </h1>
 <br>
 
 <?php
