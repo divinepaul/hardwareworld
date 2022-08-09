@@ -12,9 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install rsync
-        run: sudo apt-get install rsync
-
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
         env:
