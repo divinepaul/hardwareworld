@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS tbl_customer (
     customer_city varchar(20) NOT NULL,
     customer_house_name varchar(20) NOT NULL,
     customer_phone varchar(10) NOT NULL,
-    date_added DATE DEFAULT now(),
+    date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (email) REFERENCES tbl_login(email)
 );
 

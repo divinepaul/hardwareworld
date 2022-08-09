@@ -14,7 +14,7 @@ $stmt->close();
 ?>
 
 <div class="admin-heading">
-    <h1> Staff Details </h1>
+    <h1> Login Details </h1>
     <div>
     <a class="link-button" href="/admin/users/add.php"><i class="fa-solid fa-add"></i>Add User</a>
     </div>

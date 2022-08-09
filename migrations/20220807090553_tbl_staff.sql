@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS tbl_staff (
     staff_house_name varchar(20) NOT NULL,
     staff_phone varchar(10) NOT NULL,
     staff_salary int NOT NULL,
-    date_added DATE DEFAULT now(),
+    date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (email) REFERENCES tbl_login(email)
 );
 
 
 -- migrate:down
-DROP TABLE tbl_customer;
+DROP TABLE tbl_staff;

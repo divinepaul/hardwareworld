@@ -36,11 +36,11 @@ CREATE TABLE `tbl_customer` (
   `customer_city` varchar(20) NOT NULL,
   `customer_house_name` varchar(20) NOT NULL,
   `customer_phone` varchar(10) NOT NULL,
-  `date_added` date DEFAULT current_timestamp(),
+  `date_added` date DEFAULT curdate(),
   PRIMARY KEY (`customer_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_customer_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `tbl_staff` (
   PRIMARY KEY (`staff_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_staff_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
