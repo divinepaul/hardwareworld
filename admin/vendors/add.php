@@ -1,29 +1,24 @@
 <?php
-$Title = 'Register | Hardware World'; 
-include("../config/all_config.php"); 
-include("../lib/all_lib.php");
-include("../partials/header.php"); 
+$Title = 'Dashboard | Add Vendors'; 
+include("../../config/all_config.php"); 
+include("../../lib/all_lib.php"); 
+include("../../partials/dashboard_header.php"); 
+check_auth_redirect_if_not();
+check_role_or_redirect("staff","admin");
 ?>
 
-<div class="form-main">
-<h1> Register </h1>
+<h1> Add Customer </h1>
 <br>
+
 
 <?php
 
-$fname_input = new Input("customer_fname");
-$fname_input->type = "text";
-$fname_input->mysqli_type = "s";
-$fname_input->label = "First Name";
-$fname_input->minLength = 2;
-$fname_input->maxLength = 15;
-
-$lname_input = new Input("customer_lname");
-$lname_input->type = "text";
-$lname_input->mysqli_type = "s";
-$lname_input->label = "Last Name";
-$lname_input->minLength = 2;
-$lname_input->maxLength = 15;
+$name_input = new Input("customer_fname");
+$name_input->type = "text";
+$name_input->mysqli_type = "s";
+$name_input->label = "First Name";
+$name_input->minLength = 2;
+$name_input->maxLength = 30;
 
 $house_name_input = new Input("customer_house_name");
 $house_name_input->type = "text";
@@ -108,110 +103,23 @@ $email_input->label = "Email";
 $email_input->minLength = 5;
 $email_input->maxLength = 50;
 
-$password_input = new Input("password");
-$password_input->type = "password";
-$password_input->label = "Password";
-$password_input->mysqli_type = "s";
-$password_input->minLength = 8;
 
-$confirm_input = new Input("password2");
-$confirm_input->type = "password";
-$confirm_input->label = "Confirm Password";
-$confirm_input->mysqli_type = "s";
-$confirm_input->minLength = 8;
-
-$form= new Form(
-    $lname_input,
-    $fname_input,
-
+$form = new Form(
+    $name_input,
     $house_name_input,
     $street_input,
     $city_input,
     $state_input,
     $pincode_input,
-
     $phone_input,
     $email_input,
-    $password_input,
-    $confirm_input
 );
 
 $form->submit_button_text = "Register";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()){
-        // fetch user from database
-        $stmt = $db->prepare("SELECT * FROM tbl_login WHERE email = ?");
-        $stmt->bind_param("s", $email_input->value);
-        $stmt->execute();
-        $user = $stmt->get_result()->fetch_assoc();
-        $stmt->close();
-
-        if($user){
-
-            array_push($email_input->errors,"There is already an account with this email.");
-
-        } else if($password_input->value != $confirm_input->value){
-
-            array_push($password_input->errors,"Passwords dont match!");
-            array_push($confirm_input->errors,"Passwords dont match!");
-
-        } else {
-
-            $db->begin_transaction();
-            try {
-                // insert user to tbl_login
-                $stmt = $db->prepare("INSERT INTO tbl_login (email,password,type,status) VALUES (?,?,?,?)");
-                $user_type = "customer";
-                $user_status = 1;
-                $password = password_hash($password_input->value,PASSWORD_DEFAULT);
-                $stmt->bind_param("sssi",$email_input->value,$password,$user_type,$user_status);
-                $stmt->execute();
-                $stmt->close();
-
-                $CUSOMTER_INSERT_SQL = "
-                    INSERT INTO tbl_customer (
-                        email,
-                        customer_fname,
-                        customer_lname,
-                        customer_house_name,
-                        customer_street,
-                        customer_city,
-                        customer_state,
-                        customer_pincode,
-                        customer_phone 
-                    ) VALUES (?,?,?,?,?,?,?,?,?)
-                ";
-                $stmt = $db->prepare($CUSOMTER_INSERT_SQL);
-                $stmt->bind_param("sssssssss",
-                    $email_input->value,
-                    $fname_input->value,
-                    $lname_input->value,
-                    $house_name_input->value,
-                    $street_input->value,
-                    $city_input->value,
-                    $state_input->value,
-                    $pincode_input->value,
-                    $phone_input->value,
-                );
-                $stmt->execute();
-                $stmt->close();
-
-                $db->commit();
-
-            } catch (mysqli_sql_exception $exception) {
-                $db->rollback();
-            }
-
-            $stmt = $db->prepare("SELECT * FROM tbl_login WHERE email = ?");
-            $stmt->bind_param("s", $email_input->value);
-            $stmt->execute();
-            $user = $stmt->get_result()->fetch_assoc();
-            $stmt->close();
-            $_SESSION['user'] = $user;
-
-            redirect('/products/customer_details.php');
-        }
+            redirect('/admin/customers/');
     }
 }
 
@@ -274,4 +182,5 @@ echo "<br>";
 ?>
 
 </div>
+
 

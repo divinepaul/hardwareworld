@@ -1,13 +1,13 @@
 .sidebar {
     width: 15%;
     height: 94%;
-    background: #29272F;
-    transition: 300ms ease;
+    background: #fff;
     position: fixed;
     top: 6%;
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    box-shadow: 1px 0px 8px 1px rgba(0,0,0,0.25);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -20,13 +20,13 @@ a {
 
 .sidebar-header {
     font-family: 'Bai Jamjuree', sans-serif;
-    color: #aaa;
+    color: #111;
     font-size: 20px;
     margin: 20px 20px;
 }
 .sidebar-item {
     width: 100%;
-    color: white;
+    color: black;
     display: flex;
     align-items: center;
     padding: 15px 20px;
@@ -71,7 +71,7 @@ a {
 }
 
 .hamb-line {
-    background: white;
+    background: black;
     display: block;
     height: 2px;
     position: relative;
@@ -81,7 +81,7 @@ a {
 
 .hamb-line::before,
 .hamb-line::after{
-    background: white;
+    background: black;
     content: '';
     display: block;
     height: 100%;

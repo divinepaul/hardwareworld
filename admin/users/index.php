@@ -37,7 +37,7 @@ foreach ($users as $user) {
     echo "<td>{$user['email']}</td>";
     echo "<td>{$user['password']}</td>";
     echo "<td>{$user['type']}</td>";
-    echo "<td>{$user['status']}</td>";
+    echo "<td>".($user['status'] == 1 ? "active":"inactive")."</td>";
     echo "<td class=\"action-td\">
             <a class=\"icon-button\" href=\"/admin/users/edit.php?id={$user['email']}\"><i class=\"fa-solid fa-pen\"></i></a>
             <a class=\"icon-button\" style=\"background: red\" href=\"/admin/users/delete.php?id={$user['email']}\"><i class=\"fa-solid fa-trash\"></i></a>

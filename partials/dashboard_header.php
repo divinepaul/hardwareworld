@@ -52,17 +52,17 @@
                 Staff
             </div>
         </a>
+        <a href="/admin/couriers/">
+            <div class="sidebar-sub-item">
+                <i class="fa-solid fa-box"></i>
+                Couriers
+            </div>
+        </a>
     </a>
-    <a href="/dashboard/vendors/">
+    <a href="/admin/vendors/">
         <div class="sidebar-item">
             <i class="fa-solid fa-briefcase"></i>
             Vendors
-        </div>
-    </a>
-    <a href="/dashboard/couriers/">
-        <div class="sidebar-item">
-            <i class="fa-solid fa-box"></i>
-            Couriers
         </div>
     </a>
     <a href="/admin/products">

@@ -1,14 +1,41 @@
 .home-hero-section {
-    height: 50%;
+    height: 80%;
     width: 100%;
-    padding: 10%;
-    padding-top: 5%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
 }
 .home-hero-section h1{
-    font-size: 100px;
+    font-size: 150px;
+    letter-spacing: -5px;
     font-weight: 900;
     font-family: 'Bai Jamjuree', sans-serif;
-    font-style: italic;
+    text-align: center;
+}
+.home-hero-section img{
+    position: absolute;
+    width: 35%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-45%,-50%) rotate(-70deg);
+    z-index: 0;
+    animation: example 2s ease-in-out infinite alternate;
+}
+@keyframes example {
+    0% {
+        transform: translate(-55%,-45%) rotate(-70deg);
+    }
+    100% {
+        transform: translate(-55%,-58%) rotate(-65deg);
+    }
+
+}
+
+.home-hero-section .second-title {
+    position: relative;
+    z-index: 2;
 }
 .home-products-heading {
     font-size: 30px;
@@ -68,6 +95,9 @@
         text-align: center;
     }
 
+    .home-hero-section img{
+        width: 40vw;
+    }
     .home-categories-display {
         padding: 5%;
         grid-template-columns: repeat(1, 1fr);

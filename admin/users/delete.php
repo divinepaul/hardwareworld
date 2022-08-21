@@ -19,10 +19,10 @@ $stmt->bind_param("s", $id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
-if($user['status'] == "active"){
-    $stmt = $db->prepare("UPDATE tbl_login SET status='inactive' WHERE email=?");
+if($user['status'] == 1){
+    $stmt = $db->prepare("UPDATE tbl_login SET status=0 WHERE email=?");
 } else {
-    $stmt = $db->prepare("UPDATE tbl_login SET status='active' WHERE email=?");
+    $stmt = $db->prepare("UPDATE tbl_login SET status=1 WHERE email=?");
 }
 $stmt->bind_param("s",$id);
 $stmt->execute();

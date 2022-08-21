@@ -5,7 +5,9 @@ include("./lib/all_lib.php");
 include("./partials/header.php"); 
 ?>
 <div class="home-hero-section">
-    <h1> HARDWARE<br>WORLD </h1>
+    <h1> HARD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WARE</h1>
+    <h1 class="second-title">WORLD</h1>
+    <img src="/static/img/hero.png">
     <br>
     <br>
     <br>

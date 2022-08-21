@@ -19,6 +19,11 @@ $email_input->mysqli_type = "s";
 $email_input->label = "Email";
 $email_input->minLength = 3;
 
+$emal_input = new Input("textarea");
+$emal_input->type = "textarea";
+$emal_input->mysqli_type = "s";
+$emal_input->label = "textarea";
+$emal_input->minLength = 3;
 
 $pass_input = new Input("password");
 $pass_input->type = "password";
@@ -40,13 +45,13 @@ $usertype_input->selectOptions = array(
 $userstatus_input = new Input("status");
 $userstatus_input->type = "select";
 $userstatus_input->label = "User Status";
-$userstatus_input->mysqli_type = "s";
+$userstatus_input->mysqli_type = "i";
 $userstatus_input->selectOptions = array(
-    "active" => "active", 
-    "inactive" => "inactive",
+    0 => "active", 
+    1 => "inactive",
 );
 
-$form = new Form($email_input,$pass_input,$usertype_input,$userstatus_input);
+$form = new Form($email_input,$emal_input,$pass_input,$usertype_input,$userstatus_input);
 $form->sql_table = "tbl_login";
 
 

@@ -24,17 +24,25 @@ $id = $_GET['id'];
 <br>
 
 <?php
-$name_input = new Input("staff_name");
-$name_input->type = "text";
-$name_input->mysqli_type = "s";
-$name_input->label = "Full Name";
-$name_input->minLength = 5;
+$fname_input = new Input("staff_fname");
+$fname_input->type = "text";
+$fname_input->mysqli_type = "s";
+$fname_input->label = "First Name";
+$fname_input->minLength = 2;
+$fname_input->maxLength = 15;
+
+$lname_input = new Input("staff_lname");
+$lname_input->type = "text";
+$lname_input->mysqli_type = "s";
+$lname_input->label = "Last Name";
+$lname_input->minLength = 2;
+$lname_input->maxLength = 15;
 
 $phone_input = new Input("staff_phone");
 $phone_input->type = "text";
 $phone_input->label = "Phone";
 $phone_input->mysqli_type = "s";
-$phone_input->minLength = 10;
+$phone_input->minLength = 8;
 $phone_input->maxLength = 10;
 
 $house_name_input = new Input("staff_house_name");
@@ -44,12 +52,18 @@ $house_name_input->mysqli_type = "s";
 $house_name_input->minLength = 5;
 $house_name_input->maxLength = 20;
 
+$street_input = new Input("staff_street");
+$street_input->type = "text";
+$street_input->label = "Street/Area";
+$street_input->mysqli_type = "s";
+$street_input->minLength = 5;
+$street_input->maxLength = 20;
+
 $city_input = new Input("staff_city");
 $city_input->type = "text";
 $city_input->label = "City";
 $city_input->mysqli_type = "s";
 $city_input->minLength = 5;
-$house_name_input->maxLength = 20;
 
 $pincode_input = new Input("staff_pincode");
 $pincode_input->type = "text";
@@ -58,26 +72,45 @@ $pincode_input->mysqli_type = "s";
 $pincode_input->minLength = 6;
 $pincode_input->maxLength = 6;
 
-$district_input = new Input("staff_district");
-$district_input->label = "District";
-$district_input->type = "select";
-$district_input->selectOptions = array(
-    "Alappuzha" => "Alappuzha",
-    "Ernakulam" => "Ernakulam",
-    "Idukki" => "Idukki",
-    "Kannur" => "Kannur",
-    "Kasaragod" => "Kasaragod",
-    "Kollam" => "Kollam",
-    "Kottayam" => "Kottayam",
-    "Kozhikode" => "Kozhikode",
-    "Malappuram" => "Malappuram",
-    "Palakkad" => "Palakkad",
-    "Pathanamthitta" => "Pathanamthitta",
-    "Thiruvanathapuram" => "Thiruvanathapuram",
-    "Thrissur" => "Thrissur",
-    "Wayanad" => "Wayanad",
+$state_input = new Input("staff_state");
+$state_input->label = "State";
+$state_input->type = "select";
+$state_input->selectOptions = array(
+    "Andhra Pradesh" => "Andhra Pradesh",
+    "Arunachal Pradesh" => "Arunachal Pradesh",
+    "Assam" => "Assam",
+    "Bihar" => "Bihar",
+    "Chandigarh (UT)" => "Chandigarh (UT)",
+    "Chhattisgarh" => "Chhattisgarh",
+    "Delhi (NCT)" => "Delhi (NCT)",
+    "Goa" => "Goa",
+    "Gujarat" => "Gujarat",
+    "Haryana" => "Haryana",
+    "Himachal Pradesh" => "Himachal Pradesh",
+    "Jammu and Kashmir" => "Jammu and Kashmir",
+    "Jharkhand" => "Jharkhand",
+    "Karnataka" => "Karnataka",
+    "Kerala" => "Kerala",
+    "Lakshadweep (UT)" => "Lakshadweep (UT)",
+    "Madhya Pradesh" => "Madhya Pradesh",
+    "Maharashtra" => "Maharashtra",
+    "Manipur" => "Manipur",
+    "Meghalaya" => "Meghalaya",
+    "Mizoram" => "Mizoram",
+    "Nagaland" => "Nagaland",
+    "Odisha" => "Odisha",
+    "Puducherry (UT)" => "Puducherry (UT)",
+    "Punjab" => "Punjab",
+    "Rajasthan" => "Rajasthan",
+    "Sikkim" => "Sikkim",
+    "Tamil Nadu" => "Tamil Nadu",
+    "Telangana" => "Telangana",
+    "Tripura" => "Tripura",
+    "Uttarakhand" => "Uttarakhand",
+    "Uttar Pradesh" => "Uttar Pradesh",
+    "West Bengal" => "West Bengal"
 );
-$district_input->mysqli_type = "s";
+$state_input->mysqli_type = "s";
 
 $salary_input = new Input("staff_salary");
 $salary_input->type = "text";
@@ -86,11 +119,13 @@ $salary_input->mysqli_type = "i";
 $salary_input->minLength = 4;
 
 $form = new Form(
-    $name_input,
+    $fname_input,
+    $lname_input,
     $phone_input,
     $house_name_input,
+    $street_input,
     $city_input,
-    $district_input,
+    $state_input,
     $pincode_input,
     $salary_input
 );

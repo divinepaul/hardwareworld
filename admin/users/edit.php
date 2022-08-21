@@ -47,10 +47,10 @@ $usertype_input->selectOptions = array(
 $userstatus_input = new Input("status");
 $userstatus_input->type = "select";
 $userstatus_input->label = "User Status";
-$userstatus_input->mysqli_type = "s";
+$userstatus_input->mysqli_type = "i";
 $userstatus_input->selectOptions = array(
-    "active" => "active", 
-    "inactive" => "inactive",
+    1 => "active", 
+    0 => "inactive",
 );
 
 $form = new Form($email_input,$usertype_input,$userstatus_input);

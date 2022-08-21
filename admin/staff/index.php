@@ -27,11 +27,13 @@ $stmt->close();
 <tr>
     <th>id</td>
     <th>Email</th>
-    <th>Name</th>
+    <th>First Name</th>
+    <th>Last Name</th>
     <th>Phone</th>
     <th>House Name</th>
+    <th>Street</th>
     <th>City</th>
-    <th>District</th>
+    <th>State</th>
     <th>Pincode</th>
     <th>Salary</th>
     <th>Date added</th>
@@ -44,15 +46,17 @@ foreach ($users as $user) {
     echo "<tr>";
     echo "<td>{$user['staff_id']}</td>";
     echo "<td>{$user['email']}</td>";
-    echo "<td>{$user['staff_name']}</td>";
+    echo "<td>{$user['staff_fname']}</td>";
+    echo "<td>{$user['staff_lname']}</td>";
     echo "<td>{$user['staff_phone']}</td>";
     echo "<td>{$user['staff_house_name']}</td>";
+    echo "<td>{$user['staff_street']}</td>";
     echo "<td>{$user['staff_city']}</td>";
-    echo "<td>{$user['staff_district']}</td>";
+    echo "<td>{$user['staff_state']}</td>";
     echo "<td>{$user['staff_pincode']}</td>";
     echo "<td>{$user['staff_salary']}</td>";
     echo "<td>{$user['date_added']}</td>";
-    echo "<td>{$user['status']}</td>";
+    echo "<td>".($user['status'] == 1 ? "active":"inactive")."</td>";
     echo "<td class=\"action-td\">
             <a class=\"icon-button\" href=\"/admin/staff/edit.php?id={$user['staff_id']}\"><i class=\"fa-solid fa-pen\"></i></a>
             <a class=\"icon-button\" style=\"background: red\" href=\"/admin/users/delete.php?id={$user['email']}\"><i class=\"fa-solid fa-trash\"></i></a>

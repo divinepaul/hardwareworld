@@ -30,13 +30,15 @@ CREATE TABLE `schema_migrations` (
 CREATE TABLE `tbl_customer` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
-  `customer_name` varchar(30) NOT NULL,
-  `customer_district` varchar(18) NOT NULL,
-  `customer_pincode` varchar(6) NOT NULL,
-  `customer_city` varchar(20) NOT NULL,
+  `customer_fname` varchar(15) NOT NULL,
+  `customer_lname` varchar(15) NOT NULL,
   `customer_house_name` varchar(20) NOT NULL,
+  `customer_street` varchar(20) NOT NULL,
+  `customer_city` varchar(20) NOT NULL,
+  `customer_state` varchar(20) NOT NULL,
+  `customer_pincode` varchar(7) NOT NULL,
   `customer_phone` varchar(10) NOT NULL,
-  `date_added` date DEFAULT curdate(),
+  `date_added` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`customer_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_customer_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
@@ -53,7 +55,7 @@ CREATE TABLE `tbl_login` (
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` varchar(8) NOT NULL,
-  `status` varchar(9) NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -67,18 +69,20 @@ CREATE TABLE `tbl_login` (
 CREATE TABLE `tbl_staff` (
   `staff_id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
-  `staff_name` varchar(30) NOT NULL,
-  `staff_district` varchar(18) NOT NULL,
-  `staff_pincode` varchar(6) NOT NULL,
-  `staff_city` varchar(20) NOT NULL,
+  `staff_fname` varchar(15) NOT NULL,
+  `staff_lname` varchar(15) NOT NULL,
   `staff_house_name` varchar(20) NOT NULL,
+  `staff_street` varchar(20) NOT NULL,
+  `staff_city` varchar(20) NOT NULL,
+  `staff_state` varchar(20) NOT NULL,
+  `staff_pincode` varchar(7) NOT NULL,
   `staff_phone` varchar(10) NOT NULL,
   `staff_salary` int(11) NOT NULL,
-  `date_added` date DEFAULT current_timestamp(),
+  `date_added` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`staff_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_staff_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
