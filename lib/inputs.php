@@ -7,20 +7,24 @@ class Input {
     public string $label;
     public string $placeholder;
     public string $value;
-    public string $mysqli_type;
+    public string $mysqli_type = "s";
     public $selectOptions = array();
     public $errors = array();
     public $minLength = INF;
     public bool $blank = false;
     public $maxLength = INF;
 
-    public function __construct($name){
+    public function __construct($name,$label,$maxLength=INF,$minLength=INF,$type="text",$mysqli_type="s"){
         $this->name = $name;
-        $this->label = $name;
+        $this->label = $label;
+        $this->type = $type;
         $this->placeholder = &$this->label;
         $this->value = "";
-        $this->mysqli_type = "s";
+        $this->mysqli_type = $mysqli_type;
+        $this->maxLength = $maxLength;
+        $this->minLength = $minLength;
     }
+
     public function validate() {
         if( !$this->blank &&
             isset($this->value) &&

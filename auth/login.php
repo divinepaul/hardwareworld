@@ -10,17 +10,9 @@ include("../partials/header.php");
 <br>
 
 <?php
-$email_input = new Input("email");
-$email_input->type = "email";
-$email_input->mysqli_type = "s";
-$email_input->label = "Email";
-$email_input->minLength = 3;
-
-$password_input = new Input("password");
-$password_input->type = "password";
-$password_input->label = "Password";
-$password_input->mysqli_type = "s";
-$password_input->minLength = 8;
+// name, label, max, min , type
+$email_input = new Input("email","Email",50,3,"email");
+$password_input = new Input("password","Password",INF,8,"password");
 
 $form = new Form($email_input,$password_input);
 $form->submit_button_text = "Login";

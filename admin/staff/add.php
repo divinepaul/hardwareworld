@@ -12,119 +12,24 @@ check_role_or_redirect("staff","admin");
 
 <?php
 
-$fname_input = new Input("staff_fname");
-$fname_input->type = "text";
-$fname_input->mysqli_type = "s";
-$fname_input->label = "First Name";
-$fname_input->minLength = 2;
-$fname_input->maxLength = 15;
+$fname_input      = new Input("staff_fname","First Name",15,2);
+$lname_input      = new Input("staff_lname","Last Name",15,2);
 
-$lname_input = new Input("staff_lname");
-$lname_input->type = "text";
-$lname_input->mysqli_type = "s";
-$lname_input->label = "Last Name";
-$lname_input->minLength = 2;
-$lname_input->maxLength = 15;
+$phone_input      = new Input("customer_phone","Phone",10,8);
 
-
-$house_name_input = new Input("staff_housename");
-$house_name_input->type = "text";
-$house_name_input->label = "House Name";
-$house_name_input->mysqli_type = "s";
-$house_name_input->minLength = 5;
-$house_name_input->maxLength = 20;
-
-$street_input = new Input("customer_street");
-$street_input->type = "text";
-$street_input->label = "Street/Area";
-$street_input->mysqli_type = "s";
-$street_input->minLength = 5;
-$street_input->maxLength = 20;
-
-$city_input = new Input("staff_city");
-$city_input->type = "text";
-$city_input->label = "City";
-$city_input->mysqli_type = "s";
-$city_input->minLength = 5;
-
-
-$state_input = new Input("staff_state");
-$state_input->label = "State";
+$house_name_input = new Input("staff_house_name","House Name",20,5);
+$street_input     = new Input("staff_street","Street/Area",20,5);
+$city_input       = new Input("staff_city","City",20,5);
+$state_input      = new Input("staff_state", "State");
 $state_input->type = "select";
-$state_input->selectOptions = array(
-    "Andhra Pradesh" => "Andhra Pradesh",
-    "Arunachal Pradesh" => "Arunachal Pradesh",
-    "Assam" => "Assam",
-    "Bihar" => "Bihar",
-    "Chandigarh (UT)" => "Chandigarh (UT)",
-    "Chhattisgarh" => "Chhattisgarh",
-    "Delhi (NCT)" => "Delhi (NCT)",
-    "Goa" => "Goa",
-    "Gujarat" => "Gujarat",
-    "Haryana" => "Haryana",
-    "Himachal Pradesh" => "Himachal Pradesh",
-    "Jammu and Kashmir" => "Jammu and Kashmir",
-    "Jharkhand" => "Jharkhand",
-    "Karnataka" => "Karnataka",
-    "Kerala" => "Kerala",
-    "Lakshadweep (UT)" => "Lakshadweep (UT)",
-    "Madhya Pradesh" => "Madhya Pradesh",
-    "Maharashtra" => "Maharashtra",
-    "Manipur" => "Manipur",
-    "Meghalaya" => "Meghalaya",
-    "Mizoram" => "Mizoram",
-    "Nagaland" => "Nagaland",
-    "Odisha" => "Odisha",
-    "Puducherry (UT)" => "Puducherry (UT)",
-    "Punjab" => "Punjab",
-    "Rajasthan" => "Rajasthan",
-    "Sikkim" => "Sikkim",
-    "Tamil Nadu" => "Tamil Nadu",
-    "Telangana" => "Telangana",
-    "Tripura" => "Tripura",
-    "Uttarakhand" => "Uttarakhand",
-    "Uttar Pradesh" => "Uttar Pradesh",
-    "West Bengal" => "West Bengal"
-);
-$state_input->mysqli_type = "s";
+$state_input->selectOptions = INDIAN_STATES;
+$pincode_input    = new Input("staff_pincode","Pincode",6,3);
+$salary_input     = new Input("staff_salary","Salary",9,4,"text","i");
 
-$pincode_input = new Input("staff_pincode");
-$pincode_input->type = "text";
-$pincode_input->label = "Pincode";
-$pincode_input->mysqli_type = "s";
-$pincode_input->minLength = 3;
-$pincode_input->maxLength = 6;
+$email_input = new Input("email","Email",50,5,"email");
 
-$salary_input = new Input("staff_salary");
-$salary_input->type = "text";
-$salary_input->label = "Salary";
-$salary_input->mysqli_type = "i";
-$salary_input->minLength = 4;
-
-$email_input = new Input("email");
-$email_input->type = "email";
-$email_input->mysqli_type = "s";
-$email_input->label = "Email";
-$email_input->minLength = 3;
-
-$password_input = new Input("password");
-$password_input->type = "password";
-$password_input->label = "Password";
-$password_input->mysqli_type = "s";
-$password_input->minLength = 8;
-
-$confirm_input = new Input("password2");
-$confirm_input->type = "password";
-$confirm_input->label = "Confirm Password";
-$confirm_input->mysqli_type = "s";
-$confirm_input->minLength = 8;
-
-$phone_input = new Input("staff_phone");
-$phone_input->type = "text";
-$phone_input->label = "Phone";
-$phone_input->mysqli_type = "s";
-$phone_input->minLength = 8;
-$phone_input->maxLength = 10;
+$password_input = new Input("password","Password",INF,8,"password");
+$confirm_input = new Input("password2","Confirm Password",INF,8,"password");
 
 $form= new Form(
     $lname_input,
