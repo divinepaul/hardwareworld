@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS tbl_staff (
     staff_pincode varchar(7) NOT NULL,
     staff_phone varchar(10) NOT NULL,
     staff_salary int NOT NULL,
-    date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (email) REFERENCES tbl_login(email)
 );
 

@@ -22,6 +22,22 @@ CREATE TABLE `schema_migrations` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbl_brand`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_brand` (
+  `brand_id` int(11) NOT NULL AUTO_INCREMENT,
+  `brand_name` varchar(30) NOT NULL,
+  `brand_description` text NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`brand_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tbl_courier`
 --
 
@@ -44,7 +60,7 @@ CREATE TABLE `tbl_courier` (
   KEY `staff_id` (`staff_id`),
   CONSTRAINT `tbl_courier_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`),
   CONSTRAINT `tbl_courier_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,6 +128,31 @@ CREATE TABLE `tbl_staff` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbl_vendor`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_vendor` (
+  `vendor_id` int(11) NOT NULL AUTO_INCREMENT,
+  `staff_id` int(11) NOT NULL,
+  `vendor_email` varchar(50) NOT NULL,
+  `vendor_name` varchar(30) NOT NULL,
+  `vendor_building_name` varchar(20) NOT NULL,
+  `vendor_street` varchar(20) NOT NULL,
+  `vendor_city` varchar(20) NOT NULL,
+  `vendor_state` varchar(20) NOT NULL,
+  `vendor_pincode` varchar(7) NOT NULL,
+  `vendor_phone` varchar(10) NOT NULL,
+  `date_added` datetime DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`vendor_id`),
+  KEY `staff_id` (`staff_id`),
+  CONSTRAINT `tbl_vendor_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping routines for database 'test'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -136,5 +177,7 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220803092428'),
   ('20220807051331'),
   ('20220807090553'),
-  ('20220822134808');
+  ('20220822134808'),
+  ('20220823113927'),
+  ('20220823123430');
 UNLOCK TABLES;

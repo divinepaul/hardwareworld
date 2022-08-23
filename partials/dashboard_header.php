@@ -59,7 +59,7 @@
             </div>
         </a>
     </a>
-    <a href="/admin/vendors/">
+    <a href="/admin/vendor/">
         <div class="sidebar-item">
             <i class="fa-solid fa-briefcase"></i>
             Vendors
@@ -81,7 +81,7 @@
                 Subcategories
             </div>
         </a>
-        <a href="/admin/subcategories/">
+        <a href="/admin/brands/">
             <div class="sidebar-sub-item">
                 <i class="fa-solid fa-trademark"></i>
                 Brand

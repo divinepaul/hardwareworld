@@ -14,6 +14,18 @@ input {
     background:#eee;
     font-family: 'Roboto', sans-serif;
 }
+textarea {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border: 0;
+    height: 200px;
+    width: 500px;
+    background:#eee;
+    resize:none;
+    font-family: 'Roboto', sans-serif;
+}
 input[type="submit"] {
     display: block;
     background: #470FBC;
@@ -61,6 +73,9 @@ select {
 
 @media only screen and (max-width: 768px) {
     input {
+        width: 100%;
+    }
+    textarea {
         width: 100%;
     }
     input[type="submit"] {

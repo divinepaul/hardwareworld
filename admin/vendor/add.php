@@ -1,5 +1,5 @@
 <?php
-$Title = 'Dashboard | Add Courier'; 
+$Title = 'Dashboard | Add Vendor'; 
 include("../../config/all_config.php"); 
 include("../../lib/all_lib.php"); 
 include("../../partials/dashboard_header.php"); 
@@ -7,25 +7,22 @@ check_auth_redirect_if_not();
 check_role_or_redirect("staff","admin");
 ?>
 
-<h1> Add Courier </h1>
+<h1> Add Vendor </h1>
 <br>
-
 
 <?php
 
-$name_input          = new Input("courier_name","Courier Name",30,5);
-$building_name_input = new Input("courier_building_name","Builing Name",20,5);
-$street_input        = new Input("courier_street","Street/Area",20,5);
-$city_input          = new Input("courier_city","City",20,5);
-$state_input         = new Input("courier_state", "State");
+$name_input          = new Input("vendor_name","Vendor Name",30,5);
+$building_name_input = new Input("vendor_building_name","Builing Name",20,5);
+$street_input        = new Input("vendor_street","Street/Area",20,5);
+$city_input          = new Input("vendor_city","City",20,5);
+$state_input         = new Input("vendor_state", "State");
 $state_input->type = "select";
 $state_input->selectOptions = INDIAN_STATES;
-$pincode_input    = new Input("courier_pincode","Pincode",6,3);
-$phone_input      = new Input("courier_phone","Phone",10,8);
+$pincode_input    = new Input("vendor_pincode","Pincode",6,3);
+$phone_input      = new Input("vendor_phone","Phone",10,8);
 
 $email_input = new Input("email","Email",50,5,"email");
-$password_input = new Input("password","Password",INF,8,"password");
-$confirm_input = new Input("password2","Confirm Password",INF,8,"password");
 
 $hidden_input      = new Input("hidden","hidden",INF,INF,"hidden");
 
@@ -40,32 +37,15 @@ $form= new Form(
 
     $phone_input,
     $email_input,
-    $password_input,
-    $confirm_input
 );
 
 $form->submit_button_text = "Add";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()){
-        // fetch user from database
-        $stmt = $db->prepare("SELECT * FROM tbl_login WHERE email = ?");
-        $stmt->bind_param("s", $email_input->value);
-        $stmt->execute();
-        $user = $stmt->get_result()->fetch_assoc();
-        $stmt->close();
 
-        if($user){
-
-            array_push($email_input->errors,"There is already an account with this email.");
-
-        } else if($password_input->value != $confirm_input->value){
-
-            array_push($password_input->errors,"Passwords dont match!");
-            array_push($confirm_input->errors,"Passwords dont match!");
-
-        } else if($_SESSION['user']['type'] == 'admin'){
-            array_push($hidden_input->errors,"Admin users cannot add couriers");
+        if($_SESSION['user']['type'] == 'admin'){
+            array_push($hidden_input->errors,"Admin users cannot add vendors");
         } else {
 
             $stmt = $db->prepare("SELECT * FROM tbl_staff WHERE email = ?");
@@ -76,27 +56,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
             $db->begin_transaction();
+
             try {
 
-                // insert user to tbl_login
-                $stmt = $db->prepare("INSERT INTO tbl_login (email,password,type,status) VALUES (?,?,?,?)");
-                $user_type = "courier";
-                $user_status = 1;
-                $password = password_hash($password_input->value,PASSWORD_DEFAULT);
-                $stmt->bind_param("sssi",$email_input->value,$password,$user_type,$user_status);
-                $stmt->execute();
-                $stmt->close();
-
                 $VENDOR_INSERT_SQL = "
-                    INSERT INTO tbl_courier (
-                        email,
-                        courier_name,
-                        courier_building_name,
-                        courier_street,
-                        courier_city,
-                        courier_state,
-                        courier_pincode,
-                        courier_phone,
+                    INSERT INTO tbl_vendor (
+                        vendor_email,
+                        vendor_name,
+                        vendor_building_name,
+                        vendor_street,
+                        vendor_city,
+                        vendor_state,
+                        vendor_pincode,
+                        vendor_phone,
                         staff_id
                     ) VALUES (?,?,?,?,?,?,?,?,?)
                 ";
@@ -121,9 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo $exception;
                 $db->rollback();
             }
-
-
-            redirect('/admin/couriers/');
+            redirect('/admin/vendor/');
         }
     }
 }
@@ -145,14 +115,6 @@ echo '<div class="form-row">';
     echo "</div>";
 echo "</div>";
 
-echo '<div class="form-row">';
-    echo "<div>";
-    $password_input->render();
-    echo "</div>";
-    echo "<div>";
-    $confirm_input->render();
-    echo "</div>";
-echo "</div>";
 
 echo "<br><br><label> Adresss </label><br>";
 

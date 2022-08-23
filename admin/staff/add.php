@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute();
                 $stmt->close();
 
-                $CUSOMTER_INSERT_SQL = "
+                $STAFF_INSERT_SQL = "
                     INSERT INTO tbl_staff (
                         email,
                         staff_fname,
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         staff_salary
                     ) VALUES (?,?,?,?,?,?,?,?,?,?)
                 ";
-                $stmt = $db->prepare($CUSOMTER_INSERT_SQL);
+                $stmt = $db->prepare($STAFF_INSERT_SQL);
                 $stmt->bind_param("ssssssssss",
                     $email_input->value,
                     $fname_input->value,

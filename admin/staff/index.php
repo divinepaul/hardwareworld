@@ -43,7 +43,7 @@ $stmt->close();
 
 <?php
 foreach ($users as $user) {
-    echo "<tr>";
+    echo "<tr class=\"".($user['status'] == 1 ? "row-active":"row-inactive")."\">";
     echo "<td>{$user['staff_id']}</td>";
     echo "<td>{$user['email']}</td>";
     echo "<td>{$user['staff_fname']}</td>";
