@@ -22,6 +22,32 @@ CREATE TABLE `schema_migrations` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbl_courier`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_courier` (
+  `courier_id` int(11) NOT NULL AUTO_INCREMENT,
+  `staff_id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `courier_name` varchar(30) NOT NULL,
+  `courier_building_name` varchar(20) NOT NULL,
+  `courier_street` varchar(20) NOT NULL,
+  `courier_city` varchar(20) NOT NULL,
+  `courier_state` varchar(20) NOT NULL,
+  `courier_pincode` varchar(7) NOT NULL,
+  `courier_phone` varchar(10) NOT NULL,
+  `date_added` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`courier_id`),
+  KEY `email` (`email`),
+  KEY `staff_id` (`staff_id`),
+  CONSTRAINT `tbl_courier_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`),
+  CONSTRAINT `tbl_courier_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tbl_customer`
 --
 
@@ -42,7 +68,7 @@ CREATE TABLE `tbl_customer` (
   PRIMARY KEY (`customer_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_customer_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +108,7 @@ CREATE TABLE `tbl_staff` (
   PRIMARY KEY (`staff_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_staff_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,5 +135,6 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220803083631'),
   ('20220803092428'),
   ('20220807051331'),
-  ('20220807090553');
+  ('20220807090553'),
+  ('20220822134808');
 UNLOCK TABLES;

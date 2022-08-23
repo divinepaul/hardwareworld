@@ -10,6 +10,7 @@ class Form {
     public string $sql_id;
     public string $sql_id_type = "i";
     public string $sql_pk_name = "id";
+    public $errors = array();
 
 
     public function __construct(Input ...$inputs){
@@ -123,8 +124,10 @@ class Form {
         foreach ($this->inputs as $i => $input) {
             $input->render();
         }
-
         echo "<input type=\"hidden\" name=\"csrf_token\" value=\"{$csrf_token}\" />";
+        foreach ($this->errors as $i => $error) {
+            echo "<p class=\"error\">{$error}</p>";
+        }
         echo "<input type=\"submit\" value=\"{$this->submit_button_text}\" />";
         echo "</form>";
         echo "<br>";

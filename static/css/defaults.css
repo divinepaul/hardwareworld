@@ -143,6 +143,17 @@ td,th {
     display: flex;
     justify-content: space-evenly;
 }
+.row-inactive {
+    opacity: 0.5;
+    color: red;
+    transition: 300ms ease;
+}
+.row-inactive td {
+    color: red;
+}
+.row-inactive:hover {
+    opacity: 1;
+}
 th {
     background: #470FBC; 
     color: white;

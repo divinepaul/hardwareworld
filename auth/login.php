@@ -31,6 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else 
         if(!password_verify($password_input->value,$user['password'])){
             array_push($password_input->errors,"Wrong Password!");
+        } else 
+        if($user['status'] == 0){
+            array_push($email_input->errors,"No such account exists!");
         } else {
             $_SESSION['user'] = $user;
             if($user['type'] == "admin") {

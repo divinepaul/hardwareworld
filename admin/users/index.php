@@ -6,7 +6,7 @@ check_auth_redirect_if_not();
 check_role_or_redirect("staff","admin");
 include("../../partials/dashboard_header.php"); 
 
-$stmt = $db->prepare("SELECT * FROM tbl_login");
+$stmt = $db->prepare("SELECT * FROM tbl_login ORDER BY status DESC");
 $stmt->execute();
 $users = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
@@ -16,7 +16,7 @@ $stmt->close();
 <div class="admin-heading">
     <h1> Login Details </h1>
     <div>
-    <a class="link-button" href="/admin/users/add.php"><i class="fa-solid fa-add"></i>Add User</a>
+    <a class="link-button" style="background: #28bd37;" href="/admin/users/add.php"><i class="fa-solid fa-add"></i>Add User</a>
     </div>
 </div>
 
@@ -33,7 +33,7 @@ $stmt->close();
 
 <?php
 foreach ($users as $user) {
-    echo "<tr>";
+    echo "<tr class=\"".($user['status'] == 1 ? "row-active":"row-inactive")."\">";
     echo "<td>{$user['email']}</td>";
     echo "<td>{$user['password']}</td>";
     echo "<td>{$user['type']}</td>";

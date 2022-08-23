@@ -6,7 +6,7 @@ check_auth_redirect_if_not();
 check_role_or_redirect("staff","admin");
 include("../../partials/dashboard_header.php"); 
 
-$stmt = $db->prepare("SELECT * FROM tbl_customer INNER JOIN tbl_login ON tbl_customer.email = tbl_login.email ORDER BY tbl_login.status");
+$stmt = $db->prepare("SELECT * FROM tbl_customer INNER JOIN tbl_login ON tbl_customer.email = tbl_login.email ORDER BY tbl_login.status DESC");
 $stmt->execute();
 $users = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
@@ -16,7 +16,7 @@ $stmt->close();
 <div class="admin-heading">
     <h1> Customer Details </h1>
     <div>
-    <a class="link-button" href="/admin/customers/add.php"><i class="fa-solid fa-add"></i>Add Customer</a>
+    <a class="link-button" style="background: #28bd37;" href="/admin/customers/add.php"><i class="fa-solid fa-add"></i>Add Customer</a>
     </div>
 </div>
 

@@ -53,7 +53,12 @@ class Input {
 
     }
     public function render() {
-        echo "<label for=\"{$this->name}\">{$this->label}</label>";
+        if($this->type != "hidden"){
+            echo "<label for=\"{$this->name}\">{$this->label}</label>";
+        } else {
+            echo "<br>";
+            echo "<br>";
+        }
         if ($this->type!="text" && $this->type == "select") {
             echo "<select name=\"{$this->name}\" >";
             foreach ($this->selectOptions as $value => $label) {

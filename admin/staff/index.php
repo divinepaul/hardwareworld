@@ -16,7 +16,7 @@ $stmt->close();
 <div class="admin-heading">
     <h1> Staff Details </h1>
     <div>
-    <a class="link-button" href="/admin/staff/add.php"><i class="fa-solid fa-add"></i>Add Staff</a>
+    <a class="link-button" style="background: #28bd37;" href="/admin/staff/add.php"><i class="fa-solid fa-add"></i>Add Staff</a>
     </div>
 </div>
 

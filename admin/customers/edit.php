@@ -1,5 +1,5 @@
 <?php
-$Title = 'Dashboard | Edit Login Details'; 
+$Title = 'Dashboard | Edit Customer Details'; 
 include("../../config/all_config.php"); 
 include("../../lib/all_lib.php"); 
 include("../../partials/dashboard_header.php"); 
