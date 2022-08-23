@@ -139,6 +139,11 @@ table {
 td,th {
     padding: 10px;
 }
+td img {
+    height: 100px;
+    width: 100px;
+    object-fit:cover;
+}
 .action-td {
     display: flex;
     justify-content: space-evenly;
@@ -169,13 +174,13 @@ tr:nth-child(odd){background-color: #eee;}
         padding: 5%;
         padding-top: 10%;
         display: block;
-
     }
     .form-row {
         flex-direction: column;
         width: 100%;
     }
     .form-row > div {
+        width: 100%;
         margin: 0;
     }
 }

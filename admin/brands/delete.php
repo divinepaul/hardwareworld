@@ -24,6 +24,9 @@ $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 if($user['status'] == 1){
     $stmt = $db->prepare("UPDATE tbl_brand SET status=0 WHERE brand_id=?");
+    $stmt2 = $db->prepare("UPDATE tbl_product SET status=0 WHERE brand_id=?");
+    $stmt2->bind_param("i",$id);
+    $stmt2->execute();
 } else {
     $stmt = $db->prepare("UPDATE tbl_brand SET status=1 WHERE brand_id=?");
 }

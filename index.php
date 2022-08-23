@@ -13,6 +13,7 @@ include("./partials/header.php");
     <br>
     <!--<a class="link-button" href="/site/products">View Products</a> --!>
 </div>
+<!--
 <h1 class="home-products-heading">Our Products</h1>
 
 <div class="home-categories-display">
@@ -46,6 +47,7 @@ include("./partials/header.php");
         <a class="home-categories-item-button" href="/site/products?category=cpu">Browse</a>
     </div>
 </div>
+--!>
 
 <br>
 <br>

@@ -109,7 +109,7 @@ class Form {
             $row = $stmt->get_result()->fetch_assoc();
             foreach ($row as $attribute => $value) {
                 foreach ($this->inputs as $i => $input) {
-                    if($input->name == $attribute && $input->type != "password"){
+                    if($input->name == $attribute && $input->type != "password" && $input->type != "file"){
                         $this->inputs[$i]->value = $value;
                     }
                 }

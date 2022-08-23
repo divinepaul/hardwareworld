@@ -38,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user'] = $user;
             if($user['type'] == "admin") {
                 redirect('/admin/customers');
+            } else if($user['type'] == "staff") {
+                redirect('/admin/products');
             } else {
                 redirect('/site/products');
             }

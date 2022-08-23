@@ -24,6 +24,23 @@ $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 if($user['status'] == 1){
     $stmt = $db->prepare("UPDATE tbl_category SET status=0 WHERE category_id=?");
+    $stmt2 = $db->prepare("UPDATE tbl_subcategory SET status=0 WHERE category_id=?");
+    $stmt2->bind_param("i",$id);
+    $stmt2->execute();    
+    $stmt2->close();
+    $stmt3 = $db->prepare("SELECT * FROM tbl_subcategory WHERE category_id=?");
+    $stmt3->bind_param("i",$id);
+    $stmt3->execute();
+    $subcategories = $stmt3->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt3->close();
+    foreach ($subcategories as $key => $subcategory) {
+        $subid = $subcategory['subcategory_id'];
+        $stmt4 = $db->prepare("UPDATE tbl_product SET status=0 WHERE subcategory_id=?");
+        $stmt4->bind_param("i",$subid);
+        $stmt4->execute();    
+        $stmt4->close();    
+    }
+
 } else {
     $stmt = $db->prepare("UPDATE tbl_category SET status=1 WHERE category_id=?");
 }

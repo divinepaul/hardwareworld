@@ -1,5 +1,4 @@
 <?php
-
 class Input {
     public string $type = "text";
     public string $id;
@@ -8,6 +7,9 @@ class Input {
     public string $placeholder;
     public string $value;
     public string $mysqli_type = "s";
+    public string $mysqli_table;
+    public string $mysqli_pk_name;
+    public string $mysqli_select_attribute;
     public $selectOptions = array();
     public $errors = array();
     public $minLength = INF;
@@ -32,7 +34,7 @@ class Input {
 
             array_push($this->errors,"{$this->label} cannot be empty.");
         }
-        if( $this->minLength != INF &&
+        if($this->minLength != INF &&
             strlen($this->value) < $this->minLength ) {
 
             array_push($this->errors,"{$this->label} cannot be less than {$this->minLength} characters.");
@@ -45,6 +47,27 @@ class Input {
         if($this->type == "email" && !filter_var($this->value, FILTER_VALIDATE_EMAIL)){
             array_push($this->errors,"Not a valid email");
         }
+        if($this->type == "file" &&  
+            empty($_FILES[$this->name]['name'])){
+            array_push($this->errors,"No file selected.");
+        }
+        if($this->type == "file" && !empty($_FILES[$this->name]['name']) ) {
+            $file_name = $_FILES[$this->name]['name'];
+            $file_size = $_FILES[$this->name]['size'];
+            $file_tmp  = $_FILES[$this->name]['tmp_name'];
+            $file_type = $_FILES[$this->name]['type'];
+            $split_file_name = explode('.',$file_name);
+            $file_ext  = strtolower(end($split_file_name));
+            $extensions = array("jpeg","jpg");
+            if(in_array($file_ext,$extensions)=== false){
+               array_push($this->errors,"Extension not allowed, please choose a JPG/JPEG file.");
+            }
+            // 1 MB
+            if($file_size > 5 * 1024 * 1024){
+               array_push($this->errors,"File size cannot exceed 5MB");
+            }
+        }
+
         if(count($this->errors)) {
             return false;
         } else {
@@ -52,6 +75,25 @@ class Input {
         }
 
     }
+
+    public function fetchSelectValues() {
+        if(isset($this->mysqli_table) && 
+           isset($this->mysqli_select_attribute) &&
+           isset($this->mysqli_pk_name)
+        ){
+            global $db;
+            $SQL = "SELECT {$this->mysqli_select_attribute},{$this->mysqli_pk_name} FROM {$this->mysqli_table} WHERE status=1";
+            $stmt = $db->prepare($SQL);
+            $stmt->execute();
+            $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            $this->selectOptions = array();
+            foreach ($results as $key => $row) {
+                $this->selectOptions[$row[$this->mysqli_pk_name]] = $row[$this->mysqli_select_attribute];
+            }
+        }
+    }
+
     public function render() {
         if($this->type != "hidden"){
             echo "<label for=\"{$this->name}\">{$this->label}</label>";

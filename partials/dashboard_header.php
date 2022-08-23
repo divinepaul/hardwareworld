@@ -75,7 +75,7 @@
                 Categories
             </div>
         </a>
-        <a href="/admin/subcategories/">
+        <a href="/admin/subcategory/">
             <div class="sidebar-sub-item">
                 <i class="fa-solid fa-bars-staggered"></i>
                 Subcategories

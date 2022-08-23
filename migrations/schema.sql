@@ -50,7 +50,7 @@ CREATE TABLE `tbl_category` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,6 +119,29 @@ CREATE TABLE `tbl_login` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbl_product`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_product` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `brand_id` int(11) NOT NULL,
+  `subcategory_id` int(11) NOT NULL,
+  `product_name` varchar(100) NOT NULL,
+  `product_description` text NOT NULL,
+  `product_image` mediumblob NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`product_id`),
+  KEY `brand_id` (`brand_id`),
+  KEY `subcategory_id` (`subcategory_id`),
+  CONSTRAINT `tbl_product_ibfk_1` FOREIGN KEY (`brand_id`) REFERENCES `tbl_brand` (`brand_id`),
+  CONSTRAINT `tbl_product_ibfk_2` FOREIGN KEY (`subcategory_id`) REFERENCES `tbl_subcategory` (`subcategory_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tbl_staff`
 --
 
@@ -141,6 +164,25 @@ CREATE TABLE `tbl_staff` (
   KEY `email` (`email`),
   CONSTRAINT `tbl_staff_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_subcategory`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_subcategory` (
+  `subcategory_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `subcategory_name` varchar(30) NOT NULL,
+  `subcategory_description` text NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`subcategory_id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `tbl_subcategory_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `tbl_category` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,5 +238,7 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220822134808'),
   ('20220823113927'),
   ('20220823123430'),
-  ('20220823134527');
+  ('20220823134527'),
+  ('20220823142634'),
+  ('20220823174011');
 UNLOCK TABLES;
