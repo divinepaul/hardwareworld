@@ -69,7 +69,7 @@
         <div class="sidebar-item">
             Products 
         </div>
-        <a href="/admin/categories/">
+        <a href="/admin/category/">
             <div class="sidebar-sub-item">
                 <i class="fa-solid fa-list"></i>
                 Categories

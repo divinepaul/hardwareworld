@@ -34,6 +34,22 @@ CREATE TABLE `tbl_brand` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`brand_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_category`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_category` (
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(30) NOT NULL,
+  `category_description` text NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -179,5 +195,6 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220807090553'),
   ('20220822134808'),
   ('20220823113927'),
-  ('20220823123430');
+  ('20220823123430'),
+  ('20220823134527');
 UNLOCK TABLES;

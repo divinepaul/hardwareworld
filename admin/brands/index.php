@@ -26,7 +26,7 @@ $stmt->close();
 <table>
 <tr>
     <th>id</td>
-    <th>Name</th>
+    <th>Brand Name</th>
     <th>Brand Description</th>
     <th>Date Added</th>
     <th>status</th>
