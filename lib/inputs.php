@@ -14,6 +14,9 @@ class Input {
     public $errors = array();
     public $minLength = INF;
     public bool $blank = false;
+    public bool $displayLabel = true;
+    public bool $isPositiveInt = false;
+    public bool $noStatus = false;
     public $maxLength = INF;
 
     public function __construct($name,$label,$maxLength=INF,$minLength=INF,$type="text",$mysqli_type="s"){
@@ -43,6 +46,15 @@ class Input {
             strlen($this->value) > $this->maxLength ) {
 
             array_push($this->errors,"{$this->label} cannot exceed {$this->maxLength} characters.");
+        }
+        if($this->mysqli_type == "i" && !is_numeric($this->value)){
+            array_push($this->errors,"The value should be a number.");
+        }
+        if($this->mysqli_type == "i" && 
+            is_numeric($this->value) &&
+            ((int) $this->value) < 1
+        ){
+            array_push($this->errors,"The value should be larger than 0");
         }
         if($this->type == "email" && !filter_var($this->value, FILTER_VALIDATE_EMAIL)){
             array_push($this->errors,"Not a valid email");
@@ -82,7 +94,10 @@ class Input {
            isset($this->mysqli_pk_name)
         ){
             global $db;
-            $SQL = "SELECT {$this->mysqli_select_attribute},{$this->mysqli_pk_name} FROM {$this->mysqli_table} WHERE status=1";
+            $SQL = "SELECT {$this->mysqli_select_attribute},{$this->mysqli_pk_name} FROM {$this->mysqli_table} WHERE status=1 ORDER BY {$this->mysqli_select_attribute}";
+            if($this->noStatus){
+                $SQL = "SELECT {$this->mysqli_select_attribute},{$this->mysqli_pk_name} FROM {$this->mysqli_table} ORDER BY {$this->mysqli_select_attribute}";
+            }
             $stmt = $db->prepare($SQL);
             $stmt->execute();
             $results = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -96,7 +111,9 @@ class Input {
 
     public function render() {
         if($this->type != "hidden"){
-            echo "<label for=\"{$this->name}\">{$this->label}</label>";
+            if($this->displayLabel){
+                echo "<label for=\"{$this->name}\">{$this->label}</label>";
+            }
         } else {
             echo "<br>";
             echo "<br>";

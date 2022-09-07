@@ -8,6 +8,7 @@
         <base href="/">
         <title><?php echo $Title; ?></title>
         <script src="/static/js/sidenav.js" defer></script>
+        <script src="/static/js/admin.js" defer></script>
         </script>
     </head>
 <body>
@@ -95,7 +96,7 @@
         </a>
     </a>
 
-    <a href="/dashboard/purchases/">
+    <a href="/admin/purchase/">
         <div class="sidebar-item">
             <i class="fa-solid fa-basket-shopping"></i>
             Purchases

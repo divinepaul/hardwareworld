@@ -34,7 +34,7 @@ CREATE TABLE `tbl_brand` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `tbl_category` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `tbl_courier` (
   `courier_state` varchar(20) NOT NULL,
   `courier_pincode` varchar(7) NOT NULL,
   `courier_phone` varchar(10) NOT NULL,
-  `date_added` datetime DEFAULT current_timestamp(),
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`courier_id`),
   KEY `email` (`email`),
   KEY `staff_id` (`staff_id`),
@@ -96,11 +96,11 @@ CREATE TABLE `tbl_customer` (
   `customer_state` varchar(20) NOT NULL,
   `customer_pincode` varchar(7) NOT NULL,
   `customer_phone` varchar(10) NOT NULL,
-  `date_added` datetime DEFAULT current_timestamp(),
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`customer_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_customer_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,48 @@ CREATE TABLE `tbl_product` (
   KEY `subcategory_id` (`subcategory_id`),
   CONSTRAINT `tbl_product_ibfk_1` FOREIGN KEY (`brand_id`) REFERENCES `tbl_brand` (`brand_id`),
   CONSTRAINT `tbl_product_ibfk_2` FOREIGN KEY (`subcategory_id`) REFERENCES `tbl_subcategory` (`subcategory_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_purchase_child`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_purchase_child` (
+  `purchase_child_id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_master_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `cost_price` int(11) NOT NULL,
+  `selling_price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`purchase_child_id`),
+  KEY `purchase_master_id` (`purchase_master_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `tbl_purchase_child_ibfk_1` FOREIGN KEY (`purchase_master_id`) REFERENCES `tbl_purchase_master` (`purchase_master_id`),
+  CONSTRAINT `tbl_purchase_child_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_purchase_master`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_purchase_master` (
+  `purchase_master_id` int(11) NOT NULL AUTO_INCREMENT,
+  `staff_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`purchase_master_id`),
+  KEY `staff_id` (`staff_id`),
+  KEY `vendor_id` (`vendor_id`),
+  CONSTRAINT `tbl_purchase_master_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`),
+  CONSTRAINT `tbl_purchase_master_ibfk_2` FOREIGN KEY (`vendor_id`) REFERENCES `tbl_vendor` (`vendor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,11 +200,11 @@ CREATE TABLE `tbl_staff` (
   `staff_pincode` varchar(7) NOT NULL,
   `staff_phone` varchar(10) NOT NULL,
   `staff_salary` int(11) NOT NULL,
-  `date_added` datetime DEFAULT current_timestamp(),
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`staff_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_staff_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +223,7 @@ CREATE TABLE `tbl_subcategory` (
   PRIMARY KEY (`subcategory_id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `tbl_subcategory_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `tbl_category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,7 +243,7 @@ CREATE TABLE `tbl_vendor` (
   `vendor_state` varchar(20) NOT NULL,
   `vendor_pincode` varchar(7) NOT NULL,
   `vendor_phone` varchar(10) NOT NULL,
-  `date_added` datetime DEFAULT current_timestamp(),
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`vendor_id`),
   KEY `staff_id` (`staff_id`),
@@ -240,5 +281,7 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220823123430'),
   ('20220823134527'),
   ('20220823142634'),
-  ('20220823174011');
+  ('20220823174011'),
+  ('20220828014604'),
+  ('20220904103506');
 UNLOCK TABLES;

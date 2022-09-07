@@ -55,7 +55,12 @@ foreach ($products as $product) {
     echo "<td>{$product['product_id']}</td>";
     echo '<td><img src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/></td>';
     echo "<td>{$product['product_name']}</td>";
-    echo "<td>{$product['product_description']}</td>";
+    echo "<td>";
+    foreach (explode("\n",$product['product_description']) as $key => $value) {
+        echo "<li>{$value}</li>";
+
+    }
+    echo "</td>";
     echo "<td>{$product['subcategory_name']}</td>";
     echo "<td>{$product['brand_name']}</td>";
     echo "<td>{$product['date_added']}</td>";

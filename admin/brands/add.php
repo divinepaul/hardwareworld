@@ -12,7 +12,7 @@ check_role_or_redirect("staff","admin");
 
 <?php
 
-$name_input = new Input("brand_name","Brand Name",30,5);
+$name_input = new Input("brand_name","Brand Name",30,3);
 $name_description = new Input("brand_description","Brand Description",INF,5,"textarea");
 
 $form= new Form(
