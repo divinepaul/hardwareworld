@@ -3,7 +3,7 @@ $Title = 'Dashboard | Customers';
 include("../../config/all_config.php"); 
 include("../../lib/all_lib.php"); 
 check_auth_redirect_if_not();
-check_role_or_redirect("staff","admin");
+check_role_or_redirect("admin");
 include("../../partials/dashboard_header.php"); 
 
 $stmt = $db->prepare("SELECT * FROM tbl_customer INNER JOIN tbl_login ON tbl_customer.email = tbl_login.email ORDER BY tbl_login.status DESC");

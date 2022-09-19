@@ -3,7 +3,7 @@ $Title = 'Dashboard | Staff';
 include("../../config/all_config.php"); 
 include("../../lib/all_lib.php"); 
 check_auth_redirect_if_not();
-check_role_or_redirect("staff","admin");
+check_role_or_redirect("admin");
 include("../../partials/dashboard_header.php"); 
 
 $stmt = $db->prepare("SELECT * FROM tbl_staff INNER JOIN tbl_login ON tbl_staff.email = tbl_login.email");

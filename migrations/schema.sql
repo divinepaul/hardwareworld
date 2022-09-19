@@ -38,6 +38,60 @@ CREATE TABLE `tbl_brand` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbl_card`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_card` (
+  `card_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `card_name` varchar(30) NOT NULL,
+  `card_no` varchar(16) NOT NULL,
+  `card_expiry` date NOT NULL,
+  PRIMARY KEY (`card_id`),
+  KEY `customer_id` (`customer_id`),
+  CONSTRAINT `tbl_card_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `tbl_customer` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_cart_child`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_cart_child` (
+  `cart_child_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cart_master_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`cart_child_id`),
+  KEY `product_id` (`product_id`),
+  KEY `cart_master_id` (`cart_master_id`),
+  CONSTRAINT `tbl_cart_child_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`),
+  CONSTRAINT `tbl_cart_child_ibfk_2` FOREIGN KEY (`cart_master_id`) REFERENCES `tbl_cart_master` (`cart_master_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_cart_master`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_cart_master` (
+  `cart_master_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  PRIMARY KEY (`cart_master_id`),
+  KEY `customer_id` (`customer_id`),
+  CONSTRAINT `tbl_cart_master_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `tbl_customer` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tbl_category`
 --
 
@@ -104,6 +158,22 @@ CREATE TABLE `tbl_customer` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `tbl_delivery`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_delivery` (
+  `delivery_id` int(11) NOT NULL AUTO_INCREMENT,
+  `payment_id` int(11) NOT NULL,
+  `delivery_date` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`delivery_id`),
+  KEY `payment_id` (`payment_id`),
+  CONSTRAINT `tbl_delivery_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `tbl_payment` (`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `tbl_login`
 --
 
@@ -115,6 +185,44 @@ CREATE TABLE `tbl_login` (
   `type` varchar(8) NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_order`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_order` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cart_master_id` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`order_id`),
+  KEY `cart_master_id` (`cart_master_id`),
+  CONSTRAINT `tbl_order_ibfk_1` FOREIGN KEY (`cart_master_id`) REFERENCES `tbl_cart_master` (`cart_master_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tbl_payment`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tbl_payment` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `card_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `courier_id` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`payment_id`),
+  KEY `card_id` (`card_id`),
+  KEY `order_id` (`order_id`),
+  KEY `courier_id` (`courier_id`),
+  CONSTRAINT `tbl_payment_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `tbl_card` (`card_id`),
+  CONSTRAINT `tbl_payment_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `tbl_order` (`order_id`),
+  CONSTRAINT `tbl_payment_ibfk_3` FOREIGN KEY (`courier_id`) REFERENCES `tbl_courier` (`courier_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -159,7 +267,7 @@ CREATE TABLE `tbl_purchase_child` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `tbl_purchase_child_ibfk_1` FOREIGN KEY (`purchase_master_id`) REFERENCES `tbl_purchase_master` (`purchase_master_id`),
   CONSTRAINT `tbl_purchase_child_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +287,7 @@ CREATE TABLE `tbl_purchase_master` (
   KEY `vendor_id` (`vendor_id`),
   CONSTRAINT `tbl_purchase_master_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`),
   CONSTRAINT `tbl_purchase_master_ibfk_2` FOREIGN KEY (`vendor_id`) REFERENCES `tbl_vendor` (`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,5 +391,11 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220823142634'),
   ('20220823174011'),
   ('20220828014604'),
-  ('20220904103506');
+  ('20220904103506'),
+  ('20220908082224'),
+  ('20220908082229'),
+  ('20220908082240'),
+  ('20220908082253'),
+  ('20220908082316'),
+  ('20220908082326');
 UNLOCK TABLES;

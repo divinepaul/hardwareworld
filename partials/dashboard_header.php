@@ -36,115 +36,137 @@
 
 <div class="sidebar">
     <h1 class="sidebar-header">DASHBOARD</h1>
-    <a href="/admin/users/">
-        <div class="sidebar-item">
-            <i class="fa-solid fa-user"></i>
-            Users
+    <?php 
+    if(check_role("admin")){
+    echo "<a href=\"/admin/users\" class=\"sidebar-item ".isSidebarItemActive("/admin/users")."\">
+        <i class=\"fa-solid fa-user\"></i>
+        Users
+    </a>";
+    } else if(check_role("staff")){
+    echo '<div class="sidebar-item">
+        <i class="fa-solid fa-user"></i>
+        Users
+    </div>';
+
+    }
+    if(check_role("admin")){
+    echo "<a href=\"/admin/customers/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/customers")."\">
+            <i class=\"fa-solid fa-bag-shopping\"></i>
+            Customers
         </div>
-        <a href="/admin/customers/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-bag-shopping"></i>
-                Customers
-            </div>
-        </a>
-        <a href="/admin/staff/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-chalkboard-user"></i>
-                Staff
-            </div>
-        </a>
-        <a href="/admin/couriers/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-box"></i>
-                Couriers
-            </div>
-        </a>
-    </a>
-    <a href="/admin/vendor/">
-        <div class="sidebar-item">
-            <i class="fa-solid fa-briefcase"></i>
+    </a>";
+    }
+    if(check_role("admin")){
+    echo "<a href=\"/admin/staff/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/staff")."\">
+            <i class=\"fa-solid fa-chalkboard-user\"></i>
+            Staff
+        </div>
+    </a>";
+    }
+    if(check_role("admin","staff")){
+    echo "<a href=\"/admin/couriers/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/couriers")."\">
+            <i class=\"fa-solid fa-box\"></i>
+            Couriers
+        </div>
+    </a>";
+    }
+
+    if(check_role("admin","staff")){
+    echo "<a href=\"/admin/vendor/\">
+        <div class=\"sidebar-item ".isSidebarItemActive("/admin/vendor")."\">
+            <i class=\"fa-solid fa-briefcase\"></i>
             Vendors
         </div>
-    </a>
-    <a href="/admin/products">
-        <div class="sidebar-item">
-            Products 
+    </a>";
+    }
+    
+    if(check_role("admin","staff")){
+    echo "<a href=\"/admin/products\">
+        <div class=\"sidebar-item\">
+            Products
         </div>
-        <a href="/admin/category/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-list"></i>
+        <a href=\"/admin/category/\">
+            <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/category")."\">
+                <i class=\"fa-solid fa-list\"></i>
                 Categories
             </div>
         </a>
-        <a href="/admin/subcategory/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-bars-staggered"></i>
+        <a href=\"/admin/subcategory/\">
+            <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/subcategory")."\">
+                <i class=\"fa-solid fa-bars-staggered\"></i>
                 Subcategories
             </div>
         </a>
-        <a href="/admin/brands/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-trademark"></i>
+        <a href=\"/admin/brands/\">
+            <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/brands")."\">
+                <i class=\"fa-solid fa-trademark\"></i>
                 Brand
             </div>
         </a>
-        <a href="/admin/products/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-tags"></i>
+        <a href=\"/admin/products/\">
+            <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/products")."\">
+                <i class=\"fa-solid fa-tags\"></i>
                 Products
             </div>
         </a>
     </a>
-
-    <a href="/admin/purchase/">
-        <div class="sidebar-item">
-            <i class="fa-solid fa-basket-shopping"></i>
+    <a href=\"/admin/purchase/\">
+        <div class=\"sidebar-item ".isSidebarItemActive("/admin/purchase")."\">
+            <i class=\"fa-solid fa-basket-shopping\"></i>
             Purchases
         </div>
     </a>
 
-    <a href="/dashboard/purchases/">
-        <div class="sidebar-item">
-            <i class="fa-solid fa-cart-shopping"></i>
+    <a href=\"/admin/carts/\">
+        <div class=\"sidebar-item ".isSidebarItemActive("/admin/carts")."\">
+            <i class=\"fa-solid fa-cart-shopping\"></i>
             User Carts
         </div>
-    </a>
+    </a>";
+    }
 
-    <a href="/admin/orders">
-        <div class="sidebar-item">
-            Sales 
+
+    echo '<div class="sidebar-item">
+        Sales 
+    </div>';
+
+    if(check_role("admin","staff")){
+    echo "<a href=\"/admin/categories/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+            <i class=\"fa-solid fa-cart-arrow-down\"></i>
+            Orders
         </div>
-        <a href="/admin/categories/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-cart-arrow-down"></i>
-                Orders
-            </div>
-        </a>
-        <a href="/admin/subcategories/">
-            <div class="sidebar-sub-item">
-            <i class="fa-solid fa-credit-card"></i>
-                Cards
-            </div>
-        </a>
-        <a href="/admin/subcategories/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-dollar-sign"></i>
-                Payments
-            </div>
-        </a>
-        <a href="/admin/products/">
-            <div class="sidebar-sub-item">
-                <i class="fa-solid fa-truck"></i>
-                Deliveries
-            </div>
-        </a>
     </a>
+    <a href=\"/admin/subcategories/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+        <i class=\"fa-solid fa-credit-card\"></i>
+            Cards
+        </div>
+    </a>
+    <a href=\"/admin/subcategories/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+            <i class=\"fa-solid fa-dollar-sign\"></i>
+            Payments
+        </div>
+    </a>";
+    }
+    if(check_role("admin","staff","couriers")){
+    echo "<a href=\"/admin/products/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+            <i class=\"fa-solid fa-truck\"></i>
+            Deliveries
+        </div>
+    </a>";
+    }
+    ?>
     <a href="/auth/logout.php">
         <div class="sidebar-item">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             Log out 
         </div>
     </a>
-
 </div>
 <div class="content">

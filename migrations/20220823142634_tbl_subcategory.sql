@@ -12,3 +12,4 @@ CREATE TABLE IF NOT EXISTS tbl_subcategory (
 
 -- migrate:down
 DROP TABLE tbl_subcategory;
+

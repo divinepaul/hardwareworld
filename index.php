@@ -3,7 +3,14 @@ $Title = 'Home | HardwareWorld';
 include("./config/all_config.php"); 
 include("./lib/all_lib.php"); 
 include("./partials/header.php"); 
+
+$stmt = $db->prepare("SELECT * FROM tbl_category ORDER BY status DESC");
+$stmt->execute();
+$categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
 ?>
+<link rel="stylesheet" href="/static/css/home.css"> 
 <div class="home-hero-section">
     <h1> HARD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WARE</h1>
     <h1 class="second-title">WORLD</h1>
@@ -11,43 +18,17 @@ include("./partials/header.php");
     <br>
     <br>
     <br>
-    <!--<a class="link-button" href="/site/products">View Products</a> --!>
 </div>
-<!--
-<h1 class="home-products-heading">Our Products</h1>
 
-<div class="home-categories-display">
-    <div class="home-category-item" style="background-image:url('https://source.unsplash.com/daily?cpu')">
-        <h2> CPU's </h2>
-        <a class="home-categories-item-button" href="/site/products?category=cpu">Browse</a>
-    </div>
+<?php
 
-    <div class="home-category-item" style="background-image:url('https://source.unsplash.com/daily?keyboards')">
-        <h2> Keyboards </h2>
-        <a class="home-categories-item-button" href="/site/products?category=keyboards">Browse</a>
-    </div>
+foreach ($categories as $category) {
+    
+    echo '<div class="category-container">';
+        echo "<h1>{$category['category_name']}s</h1>";
+    echo'</div>';
 
-    <div class="home-category-item" style="background-image:url('https://source.unsplash.com/daily?gpu')">
-        <h2> GPU's </h2>
-        <a class="home-categories-item-button" href="/site/products?category=gpu">Browse</a>
-    </div>
-
-    <div class="home-category-item" style="background-image:url('https://source.unsplash.com/daily?computer+ram')">
-        <h2> RAM </h2>
-        <a class="home-categories-item-button" href="/site/products?category=ram">Browse</a>
-    </div>
-
-    <div class="home-category-item" style="background-image:url('https://source.unsplash.com/daily?mouse')">
-        <h2> Mouse </h2>
-        <a class="home-categories-item-button" href="/site/products?category=mouse">Browse</a>
-    </div>
-
-    <div class="home-category-item" style="background-image:url('https://source.unsplash.com/daily?motherboard')">
-        <h2> Motherboards </h2>
-        <a class="home-categories-item-button" href="/site/products?category=cpu">Browse</a>
-    </div>
-</div>
---!>
-
+}
+?>
 <br>
 <br>

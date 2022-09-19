@@ -49,6 +49,11 @@ foreach ($purchases as $i => $purchase) {
     $purchaseItems = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
     $purchases[$i]['purchase_items'] = $purchaseItems;
+    $total_cost = 0; 
+    foreach ($purchaseItems as $key => $item) {
+        $total_cost += $item['cost_price'];
+    }
+    $purchases[$i]['total_cost'] = $total_cost;
 }
 
 
@@ -69,10 +74,11 @@ foreach ($purchases as $i => $purchase) {
     <th>id</th>
     <th>Vendor</th>
     <th>Added By</th>
+    <th>Total Cost</th>
     <th>Dated Added</th>
     <th>Status</th>
-    <th>Actions</th>
     <th colspan="5">Purchase Details</th>
+    <th>Actions</th>
 <?php
     foreach ($purchases as $i => $purchase) {
         echo "<tr class=\"".($purchase['status'] == 1 ? "row-active":"row-inactive")."\">";
@@ -81,14 +87,9 @@ foreach ($purchases as $i => $purchase) {
         echo "<td rowspan=\"$productCount\">{$purchase['purchase_master_id']}</td>";
         echo "<td rowspan=\"$productCount\">{$purchase['vendor_name']}</td>";
         echo "<td rowspan=\"$productCount\">{$purchase['staff_email']}</td>";
+        echo "<td rowspan=\"$productCount\">₹{$purchase['total_cost']}</td>";
         echo "<td rowspan=\"$productCount\">{$purchase['date_added']}</td>";
         echo "<td rowspan=\"$productCount\">".($purchase['status'] == 1 ? "active":"inactive")."</td>";
-        echo "<td rowspan=\"$productCount\" >";
-            echo "<a class=\"icon-button\" href=\"/admin/purchase/edit.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-pen\"></i></a>";
-            echo "<br>";
-            echo "<br>";
-            echo "<a class=\"icon-button\" style=\"background: red\" href=\"/admin/purchase/delete.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-trash\"></i></a>";
-        echo "</td>";
         echo "</tr>";
         echo "<tr class=\"".($purchase['status'] == 1 ? "row-active":"row-inactive")."\">";
             echo "<th>id</th>";
@@ -96,8 +97,15 @@ foreach ($purchases as $i => $purchase) {
             echo "<th>Cost</th>";
             echo "<th>Price</th>";
             echo "<th>Quantity</th>";
+            echo "<td rowspan=\"$productCount\" >";
+                echo "<a class=\"icon-button\" href=\"/admin/purchase/edit.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-pen\"></i></a>";
+                echo "<br>";
+                echo "<br>";
+                echo "<a class=\"icon-button\" style=\"background: red\" href=\"/admin/purchase/delete.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-trash\"></i></a>";
+            echo "</td>";
         echo "</tr>";
         foreach($purchase['purchase_items'] as $j => $purchaseItem){
+            //$productName = (strlen($purchaseItem['product_name']) > 50) ? substr($purchaseItem['product_name'],0,25).'...' : $purchaseItem['product_name'];
             echo "<tr class=\"".($purchase['status'] == 1 ? "row-active":"row-inactive")."\">";
                 echo "<td>{$purchaseItem['purchase_child_id']}</td>";
                 echo "<td>{$purchaseItem['product_name']}</td>";

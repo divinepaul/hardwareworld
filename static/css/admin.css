@@ -7,7 +7,8 @@
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-    box-shadow: 1px 0px 8px 1px rgba(0,0,0,0.25);
+    /*box-shadow: 1px 0px 8px 1px rgba(0,0,0,0.25);*/
+    border-right: 1px solid rgb(0 0 0 / 0.09);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -29,7 +30,7 @@ a {
     color: black;
     display: flex;
     align-items: center;
-    padding: 15px 20px;
+    padding: 13px 20px;
     font-family: 'Roboto', sans-serif;
 }
 .sidebar-item i {
@@ -40,6 +41,7 @@ a {
     padding: 10px;
     padding-left: 50px;
     margin-bottom: 5px;
+    font-family: 'Roboto', sans-serif;
 }
 .sidebar-sub-item i {
     margin-right: 10px;
@@ -47,15 +49,16 @@ a {
 }
 .active {
     background: #470FBC;
-
+    color:white;
+}
+.active i {
+    color:white;
 }
 .content {
     width: 85%;
-    height: 94%;
     margin-left: 15%;
-    padding: 2% 5%;
+    padding: 6% 4%;
     position: absolute;
-    top: 6%;
 }
 .content h1 {
     font-family: 'Poppins', sans-serif;
