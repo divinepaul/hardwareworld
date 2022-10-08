@@ -68,6 +68,7 @@ function getDeletedCartMaster($customer_id) {
 }
 
 $quantity_input = new Input("quantity","Quantity",INF,INF,"number","i");
+$quantity_input->value = 1;
 $hidden_input   = new Input("hidden","hidden",INF,INF,"hidden");
 
 $form = new Form(
@@ -79,6 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()){
         if(!check_role("customer")){
             array_push($hidden_input->errors,"Admin/Staff/Courier users cannot add to cart");
+        }
+        else if(((int)$quantity_input->value) > $stock){
+            array_push($hidden_input->errors,"Quantity cannot excced available stock of $stock");
         } else {
             $stmt = $db->prepare("SELECT * FROM tbl_customer WHERE email = ?");
             $stmt->bind_param("s", $_SESSION['user']['email']);
@@ -152,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="add-to-cart-container">
             <form method="POST">
-            Quantity: <input type="number" name="quantity" min="1" max="<?php echo $stock ?>" value="1" /><br> 
+            Quantity: <input type="number" name="quantity" min="1" max="<?php echo $stock ?>" value="<?php echo $quantity_input->value;?>" /><br> 
             <a class="link-button" style="background: #28bd37;" href="javascript:{}" onclick="document.querySelector('form').submit();"><i class="fa-solid fa-add"></i>Add to Cart</a>
             <?php $hidden_input->render();
                 global $csrf_token;

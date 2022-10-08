@@ -27,7 +27,9 @@ $stmt = $db->prepare("SELECT
         ON tbl_product.brand_id = tbl_brand.brand_id
     INNER JOIN tbl_customer
         ON tbl_cart_master.customer_id = tbl_customer.customer_id
-    WHERE tbl_cart_master.status = 'in cart' AND tbl_customer.email = ?");
+    WHERE tbl_cart_master.status = 'in cart' AND tbl_customer.email = ?
+    ORDER BY tbl_cart_child.date_added DESC
+");
 
 $stmt->bind_param("s",$_SESSION['user']['email']);
 
@@ -40,10 +42,11 @@ $subtotal = 0;
 $err = NULL;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $isAvailable = true;
     if(count($cart_items) < 1){
         $err = "No items in cart to buy.";
+        $isAvailable = false;
     }
-    $isAvailable = true;
     foreach ($cart_items as $product) {
         $stock = getProductStock($product['product_id']);
         if($stock < $product['quantity']){

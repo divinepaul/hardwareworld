@@ -22,14 +22,14 @@
         <?php 
             if(!is_authenticated()) {
                 echo "<a href='/site/products'>Products</a>";
-                echo "<a href='/site/products/brands'>Brands</a>";
-                echo "<a href='/site/products/categories'>Categories</a>";
+                echo "<a href='/site/brands.php'>Brands</a>";
+                echo "<a href='/site/categories.php'>Categories</a>";
                 echo "<a href='/auth/login.php'>Login</a>";
                 echo "<a href='/auth/register.php'>Register</a>";
             } else {
                 echo "<a href='/site/products'>Products</a>";
-                echo "<a href='/site/products/brands'>Brands</a>";
-                echo "<a href='/site/products/categories'>Categories</a>";
+                echo "<a href='/site/brands.php'>Brands</a>";
+                echo "<a href='/site/categories.php'>Categories</a>";
                 echo "<a href='/site/cart/view.php'>Cart</a>";
                 echo "<a href='/site/orders/?type=paid'>Orders</a>";
                 echo "<a href='/auth/logout.php'>Logout</a>";

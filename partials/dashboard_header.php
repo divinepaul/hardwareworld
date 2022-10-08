@@ -134,20 +134,20 @@
     </div>';
 
     if(check_role("admin","staff")){
-    echo "<a href=\"/admin/categories/\">
-        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+    echo "<a href=\"/admin/orders/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/orders")."\">
             <i class=\"fa-solid fa-cart-arrow-down\"></i>
             Orders
         </div>
     </a>
-    <a href=\"/admin/subcategories/\">
-        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+    <a href=\"/admin/cards/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/cards")."\">
         <i class=\"fa-solid fa-credit-card\"></i>
             Cards
         </div>
     </a>
-    <a href=\"/admin/subcategories/\">
-        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+    <a href=\"/admin/payments/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/payments")."\">
             <i class=\"fa-solid fa-dollar-sign\"></i>
             Payments
         </div>

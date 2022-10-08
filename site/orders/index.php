@@ -57,6 +57,7 @@ if(isTabSelectedBool("?type=open")){
         tbl_customer.customer_pincode,
         tbl_customer.customer_phone,
         tbl_cart_master.cart_master_id,
+        tbl_cart_master.status,
         tbl_payment.date as date_added,
         tbl_courier.courier_name,
         tbl_courier.courier_building_name,
@@ -83,6 +84,10 @@ if(isTabSelectedBool("?type=open")){
             ON tbl_payment.card_id = tbl_card.card_id
         WHERE 
             tbl_cart_master.status = 'payment-complete'
+            OR tbl_cart_master.status = 'shipped'
+            OR tbl_cart_master.status = 'in-transit'
+            OR tbl_cart_master.status = 'out-for-delivery'
+            OR tbl_cart_master.status = 'delivered'
             AND tbl_customer.email = ?
         ORDER BY date_added DESC
     ");
@@ -142,12 +147,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo '<div class="order-item">';
                     echo '<div class="order-header">';
                         echo "<p><b>Order Number</b><br>{$order['order_id']}</p>";
-                        echo "<p><b>Date Ordered</b><br> {$order['date_added']}</p>";
+                        echo "<p><b>Date Ordered</b><br>". date("F j, Y, g:i a",strtotime($order['date_added'])) .  "</p>";
                         echo "<p><b>SubTotal</b><br>₹{$order['subtotal']}</p>";
                         echo '<div style="display:flex;flex-direction:column;align-items: end;">';
                             echo '<form method="POST">';
                                 echo "<input type=\"hidden\" name=\"orderindex\" value=\"{$orderIndex}\">";
-                                echo '<input type="submit" class="link-button" style="background: #28bd37;" value="Proceed to Pay"></input>';
+                                echo '<input type="submit" class="link-button" style="background: #28bd37;margin-bottom:5px;" value="Proceed to Pay"></input>';
+                                echo "<a  class=\"link-button\" style=\"background: red;width:100%; text-align: center;\" href=\"/site/orders/delete.php?id={$order['cart_master_id']}\">Delete Order</a>";
+                                echo '<br>';
                             echo '</form>';
                             if($err){
                                 echo "<p class=\"error\">{$err}</p>";
@@ -188,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo '<div class="order-header">';
                         $card_no = str_repeat('*', strlen($order['card_no']) - 4) . substr($order['card_no'], -4);
                         echo "<p><b>Order Number</b><br>{$order['order_id']}</p>";
-                        echo "<p><b>Payment Date</b><br> {$order['date_added']}</p>";
+                        echo "<p><b>Payment Date</b><br>". date("F j, Y, g:i a",strtotime($order['date_added'])) .  "</p>";
                         echo "<p><b>Card Used</b><br> {$card_no}</p>";
                         echo "<p><b>SubTotal</b><br>₹{$order['subtotal']}</p>";
                     echo '</div>';
@@ -209,8 +216,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             Phone: ${order['courier_phone']}
                         ";
                         echo "<div>";
-                        echo "<p> <b>Delivery Status:</b> Out for Delivery </p>";
-                        echo "<p> <b>Expected Time of Delivery :</b> {$order['delivery_date']} </p>";
+                        if($order['status'] == "payment-complete"){
+                            echo "<p> <b>Delivery Status:</b> Processing </p>";
+                        } else if($order['status'] == "shipped") {
+                            echo "<p> <b>Delivery Status:</b> Shipped </p>";
+                        } else if($order['status'] == "in-transit") {
+                            echo "<p> <b>Delivery Status:</b> In Transit </p>";
+                        } else if($order['status'] == "out-for-delivery") {
+                            echo "<p> <b>Delivery Status:</b> Out for Delivery </p>";
+                        } else if($order['status'] == "delivered") {
+                            echo "<p> <b>Delivery Status:</b> Delivery Complete </p>";
+                        }
+                        echo "<p> <b>Expected Time of Delivery : </b>". date("F j, Y, g:i a",strtotime($order['delivery_date'])). "</p>";
                         echo "</div>";
                         echo "<p> <b>Delivery Adderss</b> <br> {$address} </p>";
                         echo "<p> <b>Delivery Partner</b> <br> {$courierAddress} </p>";

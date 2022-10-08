@@ -1,3 +1,7 @@
+.top-nav {
+    border: 1px solid #eee;
+    background: white;
+}
 .sidebar {
     width: 15%;
     height: 94%;

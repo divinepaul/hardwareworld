@@ -32,7 +32,7 @@ $category_input->mysqli_type = "i";
 $category_input->mysqli_table = "tbl_category";
 $category_input->fetchSelectValues();
 
-$form= new Form(
+$form = new Form(
     $name_input,
     $category_input,
     $name_description,

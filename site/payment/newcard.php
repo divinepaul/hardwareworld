@@ -106,7 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             try {
 
-            $stmt = $db->prepare("SELECT * FROM tbl_courier ORDER BY RAND() LIMIT 1");
+                $stmt = $db->prepare("SELECT * FROM tbl_courier
+                    INNER JOIN tbl_login  
+                        ON tbl_courier.email = tbl_login.email
+                    WHERE tbl_login.status = 1  
+                    ORDER BY RAND() LIMIT 1");
             $stmt->execute();
             $courier = $stmt->get_result()->fetch_assoc();
 
@@ -154,13 +158,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date_year = (int) date("Y");
 
         $card = NULL;
-        if(preg_match('/\s/',$cardno_input->value)){
+        if(!preg_match('/\s/',$cardno_input->value)){
             $stmt = $db->prepare("SELECT * FROM tbl_card WHERE card_no = ? AND customer_id = ?");
             $stmt->bind_param("si",$cardno_input->value,$order['customer_id']);
             $stmt->execute();
             $card = $stmt->get_result()->fetch_assoc();
         }
-
         if (preg_match('/\s/',$cardno_input->value)) {
             array_push($cardno_input->errors,"No whitespaces allowed in Card Number");
         } else if ($cardexp_month_input_int < 1 || $cardexp_month_input_int > 12 ) {
