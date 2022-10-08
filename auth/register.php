@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
             $_SESSION['user'] = $user;
 
-            redirect('/products/customer_details.php');
+            redirect('/site/products/index.php');
         }
     }
 }

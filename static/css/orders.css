@@ -1,0 +1,61 @@
+.orders-main-container h1 {
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.orders-main-container {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.order-tabs-container {
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    display: flex;
+}
+.order-tabs-container a {
+    display:block;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: -1px;
+}
+.order-tabs-container .tab-selected {
+    border-bottom: 3px solid #470FBC;
+    color: #470FBC;
+}
+.order-item {
+    width:100%;
+    padding: 20px;
+    box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    margin: 20px 0;
+}
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Roboto', sans-serif;
+}
+td {
+    background-color: white;
+    white-space: nowrap;
+}
+.product-name {
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+}
+.delivery-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid rgba(0,0,0,0.25);
+    margin: 10px;
+    border-radius: 10px;
+}
+.empty-msg {
+    font-family: 'Roboto', sans-serif;
+    margin: 20px;
+    font-size: 20px;
+}

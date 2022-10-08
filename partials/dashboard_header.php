@@ -120,8 +120,8 @@
         </div>
     </a>
 
-    <a href=\"/admin/carts/\">
-        <div class=\"sidebar-item ".isSidebarItemActive("/admin/carts")."\">
+    <a href=\"/admin/cart/\">
+        <div class=\"sidebar-item ".isSidebarItemActive("/admin/cart")."\">
             <i class=\"fa-solid fa-cart-shopping\"></i>
             User Carts
         </div>
@@ -153,9 +153,9 @@
         </div>
     </a>";
     }
-    if(check_role("admin","staff","couriers")){
-    echo "<a href=\"/admin/products/\">
-        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/sssss")."\">
+    if(check_role("admin","staff","courier")){
+    echo "<a href=\"/admin/delivery/\">
+        <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/delivery")."\">
             <i class=\"fa-solid fa-truck\"></i>
             Deliveries
         </div>

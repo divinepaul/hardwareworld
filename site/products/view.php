@@ -39,6 +39,7 @@ if(!$product){
 }
 
 $Title = $product['product_name']; 
+include("../../partials/header.php"); 
 
 $stock = getProductStock($product['product_id']);
 $price = getProductPrice($product['product_id']);
@@ -46,34 +47,133 @@ if($price){
     $priceFormatted = number_format($price); 
 }
 
-include("../../partials/header.php"); 
+function getCartMaster($customer_id) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM tbl_cart_master WHERE customer_id = ? AND status = 'in cart'");
+    $stmt->bind_param("s", $customer_id);
+    $stmt->execute();
+    $cart_master = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    return $cart_master;
+}
+
+function getDeletedCartMaster($customer_id) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM tbl_cart_master WHERE customer_id = ? AND status = 'deleted'");
+    $stmt->bind_param("s", $customer_id);
+    $stmt->execute();
+    $cart_master = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    return $cart_master;
+}
+
+$quantity_input = new Input("quantity","Quantity",INF,INF,"number","i");
+$hidden_input   = new Input("hidden","hidden",INF,INF,"hidden");
+
+$form = new Form(
+    $quantity_input
+);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    check_auth_redirect_if_not();
+    if($form->validate()){
+        if(!check_role("customer")){
+            array_push($hidden_input->errors,"Admin/Staff/Courier users cannot add to cart");
+        } else {
+            $stmt = $db->prepare("SELECT * FROM tbl_customer WHERE email = ?");
+            $stmt->bind_param("s", $_SESSION['user']['email']);
+            $stmt->execute();
+            $customer = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            $cart_master = getCartMaster($customer['customer_id']);
+            $deleted_cart_master = getDeletedCartMaster($customer['customer_id']);
+            $db->begin_transaction();
+            try {
+                if(!$deleted_cart_master){
+                    $stmt = $db->prepare("INSERT INTO tbl_cart_master (customer_id,status) VALUES (?,?)");
+                    $status = 'deleted';
+                    $stmt->bind_param("is", $customer['customer_id'], $status);
+                    $stmt->execute();
+                    $stmt->close();
+                }
+                if(!$cart_master){
+                    $stmt = $db->prepare("INSERT INTO tbl_cart_master (customer_id,status) VALUES (?,?)");
+                    $status = 'in cart';
+                    $stmt->bind_param("is", $customer['customer_id'], $status);
+                    $stmt->execute();
+                    $stmt->close();
+
+                    $cart_master = getCartMaster($customer['customer_id']);
+                }
+                $stmt = $db->prepare("INSERT INTO tbl_cart_child
+                    (cart_master_id,product_id,quantity) 
+                    VALUES (?,?,?)");
+                $status = 'in cart';
+                $stmt->bind_param("iii", $cart_master['cart_master_id'],$product['product_id'],$quantity_input->value);
+                $stmt->execute();
+                $stmt->close();
+                $db->commit();
+                
+                redirect("/site/cart/view.php");
+            } catch (mysqli_sql_exception $exception) {
+                echo $exception;
+                $db->rollback();
+            }
+        }
+    }
+}
+
+
 ?>
 <link rel="stylesheet" href="/static/css/product-view.css"> 
 
-
-<div class=""></div>
-<h1><?php echo $product['product_name']?></h1>
-<p><?php echo $product['brand_name']?></p>
-<p><?php echo $product['subcategory_name']?></p>
-<?php echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/>';?>
-<h2>About this item</h1>
-<ul style="margin-left:20px">
-<?php
-    foreach (explode("\n",$product['product_description']) as $key => $value) {
-        echo "<li style=\"display:list-item\">{$value}</li>";
-    }
-?>
-</ul>
-<?php
-        if($stock){
-            $price = number_format(getProductPrice($product['product_id']));
-            echo "<p class=\"product-price\">₹ ${priceFormatted}</p>";
-            if($stock < 20){
-                echo "<p class=\"product-stock-text-warning\">Only {$stock} left in stock!</p>";
+<div class="product-view-container">
+    <div class="product-image-container">
+        <?php echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/>';?>
+    </div>
+    <div class="product-details-container">
+        <h1><?php echo $product['product_name']?></h1>
+        <p>Brand: <?php echo $product['brand_name']?></p>
+        <p><?php echo $product['subcategory_name']?></p>
+        <hr>
+        <?php
+            if($stock){
+                echo "<p class=\"product-price\">₹ ${priceFormatted}</p>";
+                if($stock < 20){
+                    echo "<p class=\"product-stock-text-warning\">Only {$stock} left in stock!</p>";
+                } else {
+                    echo "<p class=\"product-stock-text\">In Stock</p>";
+                }
             } else {
-                echo "<p class=\"product-stock-text\">In Stock</p>";
+                echo "<p class=\"product-stock-text-warning\">Out of stock</p>";
             }
-        } else {
-            echo "<p class=\"product-stock-text-warning\">Out of stock</p>";
-        }
-?>
+        ?>
+
+        <div class="add-to-cart-container">
+            <form method="POST">
+            Quantity: <input type="number" name="quantity" min="1" max="<?php echo $stock ?>" value="1" /><br> 
+            <a class="link-button" style="background: #28bd37;" href="javascript:{}" onclick="document.querySelector('form').submit();"><i class="fa-solid fa-add"></i>Add to Cart</a>
+            <?php $hidden_input->render();
+                global $csrf_token;
+                echo "<input type=\"hidden\" name=\"csrf_token\" value=\"{$csrf_token}\" />";
+                foreach ($quantity_input->errors as $i => $error) {
+                    echo "<p class=\"error\">{$error}</p>";
+                }
+            ?>
+            </form>
+        </div>
+
+        <div class="product-details-list">
+            <h2>About this item</h1>
+            <ul>
+            <?php
+                foreach (explode("\n",$product['product_description']) as $key => $value) {
+                    echo "<li>{$value}</li>";
+                }
+            ?>
+            </ul>
+        </div>
+    </div>
+
+</div>

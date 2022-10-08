@@ -30,8 +30,8 @@
                 echo "<a href='/site/products'>Products</a>";
                 echo "<a href='/site/products/brands'>Brands</a>";
                 echo "<a href='/site/products/categories'>Categories</a>";
-                echo "<a href='/user/cart.php'>Cart</a>";
-                echo "<a href='/user/orders.php'>Orders</a>";
+                echo "<a href='/site/cart/view.php'>Cart</a>";
+                echo "<a href='/site/orders/?type=paid'>Orders</a>";
                 echo "<a href='/auth/logout.php'>Logout</a>";
             }
         ?>

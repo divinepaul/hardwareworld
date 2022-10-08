@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 redirect('/admin/customers');
             } else if($user['type'] == "staff") {
                 redirect('/admin/products');
+            } else if($user['type'] == "courier") {
+                redirect('/admin/delivery');
             } else {
                 redirect('/site/products');
             }
