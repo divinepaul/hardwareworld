@@ -98,10 +98,10 @@ foreach ($purchases as $i => $purchase) {
             echo "<th>Price</th>";
             echo "<th>Quantity</th>";
             echo "<td rowspan=\"$productCount\" >";
-                echo "<a class=\"icon-button\" href=\"/admin/purchase/edit.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-pen\"></i></a>";
-                echo "<br>";
-                echo "<br>";
-                echo "<a class=\"icon-button\" style=\"background: red\" href=\"/admin/purchase/delete.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-trash\"></i></a>";
+                    echo "<a class=\"icon-button\" href=\"/admin/purchase/edit.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-pen\"></i></a>";
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<a class=\"icon-button\" style=\"background: red\" href=\"/admin/purchase/delete.php?id={$purchase['purchase_master_id']}\"><i class=\"fa-solid fa-trash\"></i></a>";
             echo "</td>";
         echo "</tr>";
         foreach($purchase['purchase_items'] as $j => $purchaseItem){

@@ -83,12 +83,12 @@ if(isTabSelectedBool("?type=open")){
         INNER JOIN tbl_card
             ON tbl_payment.card_id = tbl_card.card_id
         WHERE 
+            tbl_customer.email = ? AND (
             tbl_cart_master.status = 'payment-complete'
             OR tbl_cart_master.status = 'shipped'
             OR tbl_cart_master.status = 'in-transit'
-            OR tbl_cart_master.status = 'out-for-delivery'
             OR tbl_cart_master.status = 'delivered'
-            AND tbl_customer.email = ?
+            OR tbl_cart_master.status = 'out-for-delivery' )
         ORDER BY date_added DESC
     ");
 }
@@ -227,7 +227,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         } else if($order['status'] == "delivered") {
                             echo "<p> <b>Delivery Status:</b> Delivery Complete </p>";
                         }
-                        echo "<p> <b>Expected Time of Delivery : </b>". date("F j, Y, g:i a",strtotime($order['delivery_date'])). "</p>";
+                        if($order['status'] != "delivered") {
+                            echo "<p> <b>Expected Time of Delivery : </b>". date("F j, Y, g:i a",strtotime($order['delivery_date'])). "</p>";
+                        }
                         echo "</div>";
                         echo "<p> <b>Delivery Adderss</b> <br> {$address} </p>";
                         echo "<p> <b>Delivery Partner</b> <br> {$courierAddress} </p>";

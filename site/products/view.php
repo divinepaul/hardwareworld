@@ -81,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(!check_role("customer")){
             array_push($hidden_input->errors,"Admin/Staff/Courier users cannot add to cart");
         }
+        else if($stock < 1){
+            array_push($hidden_input->errors,"Out of stock");
+        }
         else if(((int)$quantity_input->value) > $stock){
             array_push($hidden_input->errors,"Quantity cannot excced available stock of $stock");
         } else {
