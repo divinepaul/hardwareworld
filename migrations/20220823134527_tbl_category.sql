@@ -1,9 +1,10 @@
 -- migrate:up
-CREATE TABLE IF NOT EXISTS tbl_delivery (
-    delivery_id int PRIMARY KEY AUTO_INCREMENT,
-    payment_id int NOT NULL,
-    arrival_date DATETIME NOT NULL,
-    FOREIGN KEY (payment_id) REFERENCES tbl_payment(payment_id)
+CREATE TABLE IF NOT EXISTS tbl_category (
+    category_id int PRIMARY KEY AUTO_INCREMENT,
+    category_name varchar(30) NOT NULL,
+    category_description TEXT NOT NULL,
+    date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status boolean NOT NULL DEFAULT 1
 );
 
 -- migrate:down
