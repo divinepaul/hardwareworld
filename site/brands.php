@@ -45,7 +45,7 @@ foreach($brands as $key => $brand){
                 echo '<div class="subcategory-item">';
                     echo "<p>{$product['product_name']}</p>";
                     echo '<br>';
-                    echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/>';
+                    echo '<img class="product-image" src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/>';
                     echo '<br>';
                     echo '<br>';
                     echo "<a class=\"link-button\" href=\"/site/products?q={$brand['brand_name']}\"></i>View More Products</a>";

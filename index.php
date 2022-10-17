@@ -114,7 +114,7 @@ $stmt->close();
                 if($subcategory['product']){
                 echo '<div class="subcategory-item">';
                     echo "<h1>{$subcategory['subcategory_name']}</h1>";
-                    echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($subcategory['product']['product_image']).'"/>';
+                    echo '<img class="product-image" src="/site/products/image.php?id='.$subcategory['product']['product_id'].'" loading="lazy"/>';
                     echo "<p>{$subcategory['product']['product_name']}</p>";
                     echo '<br>';
                     echo '<br>';

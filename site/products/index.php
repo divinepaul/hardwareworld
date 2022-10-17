@@ -7,7 +7,6 @@
 $stmt = $db->prepare("SELECT 
     product_id,
     product_name,
-    product_image,
     product_description,
     subcategory_name,
     brand_name,
@@ -67,7 +66,7 @@ if(!$products) {
 }
 foreach ($products as $product) {
     echo "<div class=\"product-container\">";
-    echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/>';
+    echo '<img class="product-image" src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/>';
     echo '<div class="product-details">';
         echo "<a target=\"_blank\" href=\"/site/products/view.php?id=${product['product_id']}\">";
         echo "<h1>${product['product_name']}</h1>";

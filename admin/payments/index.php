@@ -99,7 +99,7 @@ foreach ($carts as $i => $cart) {
             //$productName = (strlen($cartItem['product_name']) > 50) ? substr($cartItem['product_name'],0,25).'...' : $cartItem['product_name'];
             echo "<tr>";
                 echo "<td>{$cartItem['cart_child_id']}</td>";
-                echo '<td><img src="data:image/jpeg;base64,'.base64_encode($cartItem['product_image']).'"/></td>';
+                echo '<td><img src="/site/products/image.php?id='.$cartItem['product_id'].'" loading="lazy"/></td>';
                 echo "<td>{$cartItem['product_name']}</td>";
                 echo "<td>₹{$cartItem['price']}</td>";
                 echo "<td>{$cartItem['quantity']}</td>";

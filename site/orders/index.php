@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <div class="orders-main-container">
-    <h1>Your Orders</h1>
+    <h1>Unpaid Orders</h1>
     <div class="order-tabs-container">
     <a href="/site/orders/?type=paid" class="<?php echo isTabSelected("?type=paid");?>">Your Orders</a>
         <a href="/site/orders/?type=open" class="<?php echo isTabSelected("?type=open");?>">Open Orders</a>
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo "<table>";
                         foreach ($order['products'] as $product) {
                             echo "<tr>";
-                                echo '<td><img src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/></td>';
+                                echo '<td><img  src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/>';
                                 echo "<td class=\"product-name\">{$product['product_name']}</td>";
                                 echo "<td><b>Quantity: </b>{$product['quantity']}</td>";
                                 echo "<td>";
@@ -238,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo "<table>";
                         foreach ($order['products'] as $product) {
                             echo "<tr>";
-                                echo '<td><img src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/></td>';
+                                echo '<td><img src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/></td>';
                                 echo "<td class=\"product-name\">{$product['product_name']}</td>";
                                 echo "<td><b>Quantity: </b>{$product['quantity']}</td>";
                                 echo "<td>₹".getOldProductPrice($product['product_id'],$order['order_id'])."</td>";

@@ -167,7 +167,7 @@ foreach ($orders as $i => $order) {
         //$productName = (strlen($purchaseItem['product_name']) > 50) ? substr($purchaseItem['product_name'],0,25).'...' : $purchaseItem['product_name'];
         echo "<tr>";
             echo "<td>{$orderItem['product_id']}</td>";
-            echo '<td><img src="data:image/jpeg;base64,'.base64_encode($orderItem['product_image']).'"/></td>';
+            echo '<td><img src="/site/products/image.php?id='.$orderItem['product_id'].'" loading="lazy"/></td>';
             echo "<td>{$orderItem['product_name']}</td>";
             echo "<td>{$orderItem['quantity']}</td>";
         echo "</tr>";

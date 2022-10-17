@@ -19,7 +19,7 @@ function getProductStock($id) {
         FROM tbl_purchase_child
         INNER JOIN tbl_purchase_master
         ON tbl_purchase_child.purchase_master_id = tbl_purchase_master.purchase_master_id
-        WHERE product_id = ?
+        WHERE product_id = ? AND tbl_purchase_master.status = 1
         ORDER BY date_added"
     );
     $stmt->bind_param("i", $id);
@@ -71,7 +71,7 @@ function getProductPrice($id) {
             FROM tbl_purchase_child
             INNER JOIN tbl_purchase_master
             ON tbl_purchase_child.purchase_master_id = tbl_purchase_master.purchase_master_id
-            WHERE product_id = ?
+            WHERE product_id = ? AND tbl_purchase_master.status = 1
             ORDER BY date_added"
         );
         $stmt->bind_param("i", $id);
@@ -116,7 +116,7 @@ function getOldProductPrice($id,$orderid) {
         FROM tbl_purchase_child
         INNER JOIN tbl_purchase_master
         ON tbl_purchase_child.purchase_master_id = tbl_purchase_master.purchase_master_id
-        WHERE product_id = ?
+        WHERE product_id = ? AND tbl_purchase_master.status = 1
         ORDER BY date_added"
     );
     $stmt->bind_param("i", $id);
@@ -175,57 +175,78 @@ function getOldProductPrice($id,$orderid) {
 
 
 function isPurchaseUsed($purchaseId){
+
     global $db;
+
     $stmt = $db->prepare("SELECT 
         *
         FROM tbl_purchase_child
         INNER JOIN tbl_purchase_master
         ON tbl_purchase_child.purchase_master_id = tbl_purchase_master.purchase_master_id
-        ORDER BY date_added"
+        WHERE tbl_purchase_master.purchase_master_id = ?"
     );
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("i", $purchaseId);
     $stmt->execute();
-    $purchases = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $main_purchases = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    $stmt = $db->prepare("SELECT
-        tbl_order.order_id as order_id,
-        tbl_cart_child.quantity as quantity
-        FROM tbl_payment
-        INNER JOIN tbl_order
-            ON tbl_payment.order_id = tbl_order.order_id
-        INNER JOIN tbl_cart_master
-            ON tbl_order.cart_master_id = tbl_cart_master.cart_master_id
-        INNER JOIN tbl_cart_child
-            ON tbl_cart_master.cart_master_id = tbl_cart_child.cart_master_id
-        ORDER BY tbl_payment.date
-        ;"
-    );
+    foreach ($main_purchases as  $purchase) {
 
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $product_id = $purchase['product_id'];
 
+        $stmt = $db->prepare("SELECT 
+            *
+            FROM tbl_purchase_child
+            INNER JOIN tbl_purchase_master
+            ON tbl_purchase_child.purchase_master_id = tbl_purchase_master.purchase_master_id
+            WHERE product_id = ?
+            ORDER BY date_added"
+        );
+        $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        $purchases = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    //$totalOrdered = 0;
-    //foreach ($orders as $order) {
-        //$totalOrdered += $order['quantity'];
-    //}
+        $stmt = $db->prepare("SELECT
+            tbl_order.order_id as order_id,
+            tbl_cart_child.quantity as quantity
+            FROM tbl_payment
+            INNER JOIN tbl_order
+                ON tbl_payment.order_id = tbl_order.order_id
+            INNER JOIN tbl_cart_master
+                ON tbl_order.cart_master_id = tbl_cart_master.cart_master_id
+            INNER JOIN tbl_cart_child
+                ON tbl_cart_master.cart_master_id = tbl_cart_child.cart_master_id
+            WHERE tbl_cart_child.product_id = ?
+            ORDER BY tbl_payment.date
+            ;"
+        );
 
-    //$currentPurchase = $purchases[0];
-    //$purchasesIndex = 0;
+        $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        $orders = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-    //foreach ($orders as $order) {
-        //if($currentPurchase['purchase_master_id'] != $purchaseId){
-            //if($currentPurchase['quantity'] > $order['quantity']){
-                //$currentPurchase['quantity'] -= $order['quantity'];
-            //} else {
-                //$currentPurchase =  $purchases[++$purchasesIndex];
-            //}
-        //} else {
-            //return true;
-        //}
-    //}
-    //return false;
+        $totalOrdered = 0;
+        foreach ($orders as $order) {
+            $totalOrdered += $order['quantity'];
+        }
+
+        $currentPurchase = $purchases[0];
+
+        $purchasesIndex = 0;
+
+        foreach ($orders as $order) {
+                if($currentPurchase['quantity'] > $order['quantity']){
+                    $currentPurchase['quantity'] -= $order['quantity'];
+                    if($currentPurchase['purchase_master_id'] == $purchaseId){
+                        return true;
+                    }
+                } else {
+                    $currentPurchase =  $purchases[++$purchasesIndex];
+                }
+        }
+
+    }
+    return false;
+
 }
 
 function getCartItmes(&$orders,$isOld=false) {

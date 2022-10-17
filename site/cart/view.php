@@ -11,7 +11,6 @@ $stmt = $db->prepare("SELECT
     tbl_product.product_id as product_id,
     quantity,
     product_name,
-    product_image,
     product_description,
     subcategory_name,
     brand_name,
@@ -89,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         foreach ($cart_items as $product) {
             echo "<div class=\"product-container\">";
-            echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/>';
+            echo '<img class="product-image" src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/>';
             echo '<div class="product-details">';
                 echo "<div style=\"display:flex;align-items:flex-start\">";
                 echo "<a target=\"_blank\" href=\"/site/products/view.php?id=${product['product_id']}\">";

@@ -30,7 +30,6 @@ foreach ($carts as $i => $cart) {
         tbl_cart_master.cart_master_id as cart_master_id,
         tbl_cart_child.product_id as product_id,
         product_name,
-        product_image,
         quantity
         FROM tbl_cart_child 
         INNER JOIN tbl_cart_master 
@@ -92,7 +91,7 @@ foreach ($carts as $i => $cart) {
             //$productName = (strlen($cartItem['product_name']) > 50) ? substr($cartItem['product_name'],0,25).'...' : $cartItem['product_name'];
             echo "<tr>";
                 echo "<td>{$cartItem['cart_child_id']}</td>";
-                echo '<td><img src="data:image/jpeg;base64,'.base64_encode($cartItem['product_image']).'"/></td>';
+                echo '<td><img src="/site/products/image.php?id='.$cartItem['product_id'].'" loading="lazy"/></td>';
                 echo "<td>{$cartItem['product_name']}</td>";
                 echo "<td>{$cartItem['quantity']}</td>";
             echo "</tr>";

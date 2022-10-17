@@ -15,7 +15,13 @@ if(empty($_GET['id'])){
 if(!is_numeric($_GET['id'])){
     redirect('/admin/purchase/');
 }
+
+
 $id = $_GET['id'];
+
+if(isPurchaseUsed($id)){
+    redirect('/admin/purchase/');
+}
 
 $stmt = $db->prepare("SELECT * FROM tbl_purchase_master WHERE purchase_master_id = ?");
 $stmt->bind_param("i", $id);
@@ -128,12 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $staff_id = $staff_input->value;
         $db->begin_transaction();
         try {
+            $date = date('Y-m-d H:i:s');
             $PURCHASE_MASTER_UPDATE_SQL = "
-                UPDATE tbl_purchase_master SET vendor_id=?,staff_id=?
+                UPDATE tbl_purchase_master SET date_added=?,vendor_id=?,staff_id=?
                 WHERE purchase_master_id = ? 
             ";
             $stmt = $db->prepare($PURCHASE_MASTER_UPDATE_SQL);
-            $stmt->bind_param("iii",
+            $stmt->bind_param("siii",
+                $date,
                 $vendor_input->value,
                 $staff_id,
                 $id

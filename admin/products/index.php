@@ -9,7 +9,6 @@ include("../../partials/dashboard_header.php");
 $stmt = $db->prepare("SELECT 
     product_id,
     product_name,
-    product_image,
     product_description,
     subcategory_name,
     brand_name,
@@ -53,7 +52,7 @@ $stmt->close();
 foreach ($products as $product) {
     echo "<tr class=\"".($product['status'] == 1 ? "row-active":"row-inactive")."\">";
     echo "<td>{$product['product_id']}</td>";
-    echo '<td><img src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/></td>';
+    echo '<td><img src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/></td>';
     echo "<td>{$product['product_name']}</td>";
     echo "<td>";
     foreach (explode("\n",$product['product_description']) as $key => $value) {

@@ -53,14 +53,14 @@
         </div>
     </a>
 
-    <a href="/site/products/brands/">
+    <a href="/site/brands.php">
         <div class="sidebar-item">
             <i class="fa-solid fa-trademark"></i>
             Brands 
         </div>
     </a>
 
-    <a href="/site/products/categories/">
+    <a href="/site/categories.php">
         <div class="sidebar-item">
             <i class="fa-solid fa-list"></i>
             Categories 
@@ -84,13 +84,13 @@
 
 
         } else {
-            echo '<a href="/dashboard/purchases/">
+            echo '<a href="/site/cart/view.php">
                 <div class="sidebar-item">
                     <i class="fa-solid fa-cart-shopping"></i>
                     Cart
                 </div>
             </a>';
-            echo '<a href="/dashboard/purchases/">
+            echo '<a href="/site/orders/?type=paid">
                 <div class="sidebar-item">
                     <i class="fa-solid fa-cart-arrow-down"></i>
                     Orders 

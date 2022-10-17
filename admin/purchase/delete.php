@@ -17,17 +17,24 @@ if(!is_numeric($_GET['id'])){
 
 $id = $_GET['id'];
 
+if(isPurchaseUsed($id)){
+    redirect('/admin/purchase/');
+}
+
 $stmt = $db->prepare("SELECT * FROM tbl_purchase_master WHERE purchase_master_id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
+
 if($user['status'] == 1){
     $stmt = $db->prepare("UPDATE tbl_purchase_master SET status=0 WHERE purchase_master_id=?");
+    $stmt->bind_param("i",$id);
 } else {
-    $stmt = $db->prepare("UPDATE tbl_purchase_master SET status=1 WHERE purchase_master_id=?");
+    $date = date('Y-m-d H:i:s');
+    $stmt = $db->prepare("UPDATE tbl_purchase_master SET status=1,date_added=?  WHERE purchase_master_id=?");
+    $stmt->bind_param("si",$date,$id);
 }
-$stmt->bind_param("i",$id);
 $stmt->execute();
 redirect($_SERVER['HTTP_REFERER']);
 ?>

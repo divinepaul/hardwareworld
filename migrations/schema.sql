@@ -130,7 +130,7 @@ CREATE TABLE `tbl_courier` (
   KEY `staff_id` (`staff_id`),
   CONSTRAINT `tbl_courier_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`),
   CONSTRAINT `tbl_courier_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +267,7 @@ CREATE TABLE `tbl_purchase_child` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `tbl_purchase_child_ibfk_1` FOREIGN KEY (`purchase_master_id`) REFERENCES `tbl_purchase_master` (`purchase_master_id`),
   CONSTRAINT `tbl_purchase_child_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +287,7 @@ CREATE TABLE `tbl_purchase_master` (
   KEY `vendor_id` (`vendor_id`),
   CONSTRAINT `tbl_purchase_master_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`),
   CONSTRAINT `tbl_purchase_master_ibfk_2` FOREIGN KEY (`vendor_id`) REFERENCES `tbl_vendor` (`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

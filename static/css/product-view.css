@@ -43,3 +43,21 @@ hr {
 input {
     width: 70px;
 }
+
+@media only screen and (max-width: 768px) {
+    .product-view-container {
+        width: 95%;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .product-image-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .product-image {
+        width: 50%;
+
+    }
+}

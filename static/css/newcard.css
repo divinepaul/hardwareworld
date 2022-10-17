@@ -57,6 +57,13 @@ input {
     display: flex;
     justify-content:space-between;
 }
+.card-item form {
+    width: 50%;
+}
+.card-item form input {
+    width: 100%;
+}
+
 .card-no {
     font-weight: bold;
     font-size: 20px;
@@ -66,3 +73,44 @@ input {
     margin: 0;
 }
 
+
+@media only screen and (max-width: 1200px) {
+    .payment-container {
+        width: 98%;
+    }
+    .card-item {
+        flex-direction: column;
+        width: 100%;
+    }
+    .card-item form {
+        width: 100%;
+    } 
+}
+@media only screen and (max-width: 768px) {
+    .payment-container {
+        width: 95%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 20px;
+    }
+    .payment-content {
+        flex-direction: column-reverse;
+    }
+    .card-list {
+        width: 100%;
+        margin: 20px 0;
+    }
+    .card-details {
+        width: 100%;
+    }
+    .card-details input {
+        width: 100%;
+    }
+    .card-item {
+        flex-direction: column;
+        width: 100%;
+    }
+    .card-item form {
+        width: 100%;
+    } 
+}

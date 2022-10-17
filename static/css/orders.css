@@ -60,3 +60,38 @@ td {
     margin: 20px;
     font-size: 20px;
 }
+
+@media only screen and (max-width: 1100px) {
+    .orders-main-container {
+        width: 75%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .orders-main-container {
+        width: 95%;
+
+    }
+    .delivery-container {
+        flex-direction: column;
+    }
+    .delivery-container p  {
+        margin-bottom: 10px;
+    }
+    .order-header {
+        flex-direction: column;
+    }
+    .order-header p  {
+        margin-bottom: 10px;
+    }
+    .link-button {
+        width: 100%;
+        display: block;
+    }
+    form {
+        width: 100%;
+    }
+    tr {
+        display: inline-flex;
+        flex-direction: column;
+    }
+}

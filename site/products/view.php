@@ -15,7 +15,6 @@ $id = $_GET['id'];
 $stmt = $db->prepare("SELECT 
     product_id,
     product_name,
-    product_image,
     product_description,
     subcategory_name,
     brand_name,
@@ -137,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="product-view-container">
     <div class="product-image-container">
-        <?php echo '<img class="product-image" src="data:image/jpeg;base64,'.base64_encode($product['product_image']).'"/>';?>
+        <?php echo '<img class="product-image" src="/site/products/image.php?id='.$product['product_id'].'" loading="lazy"/>';?>
     </div>
     <div class="product-details-container">
         <h1><?php echo $product['product_name']?></h1>

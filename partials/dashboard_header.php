@@ -139,7 +139,7 @@
     echo "<a href=\"/admin/orders/\">
         <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/orders")."\">
             <i class=\"fa-solid fa-cart-arrow-down\"></i>
-            Orders
+            Unpaid Orders
         </div>
     </a>
     <a href=\"/admin/cards/\">
@@ -151,7 +151,7 @@
     <a href=\"/admin/payments/\">
         <div class=\"sidebar-sub-item ".isSidebarItemActive("/admin/payments")."\">
             <i class=\"fa-solid fa-dollar-sign\"></i>
-            Payments
+            Paid Orders
         </div>
     </a>";
     }
