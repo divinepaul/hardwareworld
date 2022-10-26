@@ -13,7 +13,6 @@ $stmt = $db->prepare("SELECT
     FROM tbl_cart_master 
     INNER JOIN tbl_customer
         ON tbl_cart_master.customer_id = tbl_customer.customer_id
-    WHERE tbl_cart_master.status != 'deleted'
     ORDER BY tbl_cart_master.status DESC");
 $stmt->execute();
 $carts = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -69,6 +68,7 @@ foreach ($carts as $i => $cart) {
     <th colspan="4">Cart Items</th>
 <?php
     foreach ($carts as $i => $cart) {
+        if(count($cart['cart_items']) > 0){
         echo "<tr class=\"".($cart['status'] != "deleted" ? "row-active":"row-inactive")."\">";
         $productCount = count($cart['cart_items']);
         $productCount += 2;
@@ -94,6 +94,7 @@ foreach ($carts as $i => $cart) {
         }
         echo "<tr>";
         echo "</tr>";
+        }
     }
 ?>
 </table>

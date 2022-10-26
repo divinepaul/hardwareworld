@@ -56,7 +56,7 @@ foreach ($carts as $i => $cart) {
 ?>
 
 <div class="admin-heading">
-    <h1> Orders </h1>
+    <h1> Unpaid Orders </h1>
     <div>
     <!--<a class="link-button" style="background: #28bd37;" href="/admin/cart/new.php"><i class="fa-solid fa-add"></i>New Purchase</a>-->
     </div>
@@ -68,7 +68,7 @@ foreach ($carts as $i => $cart) {
 <table>
     <tr>
     <th>Order Id</th>
-    <th>Cusomter Email</th>
+    <th>Customer Email</th>
     <th>Status</th>
     <th colspan="4">Order Details</th>
 <?php

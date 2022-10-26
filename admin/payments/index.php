@@ -10,10 +10,13 @@ $stmt = $db->prepare("SELECT
     tbl_order.order_id,
     tbl_cart_master.cart_master_id,
     email,
+    tbl_payment.date as date_added,
     tbl_cart_master.status as status 
     FROM tbl_order
     INNER JOIN tbl_cart_master
         ON tbl_order.cart_master_id = tbl_cart_master.cart_master_id
+    INNER JOIN tbl_payment
+        ON tbl_order.order_id = tbl_payment.order_id
     INNER JOIN tbl_customer
         ON tbl_cart_master.customer_id = tbl_customer.customer_id
     WHERE
@@ -75,6 +78,7 @@ foreach ($carts as $i => $cart) {
     <tr>
     <th>Order Id</th>
     <th>Cusomter Email</th>
+    <th>Payment Date</th>
     <th>Subtotal</th>
     <th>Status</th>
     <th colspan="5">Order Details</th>
@@ -85,6 +89,7 @@ foreach ($carts as $i => $cart) {
         $productCount += 2;
         echo "<td rowspan=\"$productCount\">{$cart['order_id']}</td>";
         echo "<td rowspan=\"$productCount\">{$cart['email']}</td>";
+        echo "<td rowspan=\"$productCount\">{$cart['date_added']}</td>";
         echo "<td rowspan=\"$productCount\">₹{$cart['total_cost']}</td>";
         echo "<td rowspan=\"$productCount\">{$cart['status']}</td>";
         echo "</tr>";
