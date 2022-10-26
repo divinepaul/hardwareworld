@@ -22,11 +22,13 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $subcategory = $stmt->get_result()->fetch_assoc();
 if($subcategory['status'] == 1){
+    Messages::add("warning","All products under the selected subcategory has been also disabled.");
     $stmt = $db->prepare("UPDATE tbl_subcategory SET status=0 WHERE subcategory_id=?");
     $stmt2 = $db->prepare("UPDATE tbl_product SET status=0 WHERE subcategory_id=?");
     $stmt2->bind_param("i",$id);
     $stmt2->execute();
 } else {
+    Messages::add("info","The products under the selected subcategory must be individualy enabled.");
     $stmt3 = $db->prepare("SELECT * FROM tbl_category WHERE category_id=?");
     $stmt3->bind_param("i",$subcategory['category_id']);
     $stmt3->execute();

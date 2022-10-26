@@ -31,7 +31,7 @@ $stmt->close();
     <a class="link-button" style="background: #28bd37;" href="/admin/products/add.php"><i class="fa-solid fa-add"></i>Add Product</a>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 
 <div style="overflow-x:auto;">

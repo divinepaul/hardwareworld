@@ -51,7 +51,7 @@ foreach ($purchases as $i => $purchase) {
     $purchases[$i]['purchase_items'] = $purchaseItems;
     $total_cost = 0; 
     foreach ($purchaseItems as $key => $item) {
-        $total_cost += $item['cost_price'];
+        $total_cost += $item['cost_price'] * $item['quantity'];
     }
     $purchases[$i]['total_cost'] = $total_cost;
 }
@@ -65,7 +65,7 @@ foreach ($purchases as $i => $purchase) {
     <a class="link-button" style="background: #28bd37;" href="/admin/purchase/new.php"><i class="fa-solid fa-add"></i>New Purchase</a>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 
 <div style="overflow-x:auto;">

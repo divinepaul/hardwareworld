@@ -128,11 +128,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->close();
                 }
                 $db->commit();
+
+                Messages::add("success","Purchase was added successfully!");
+                redirect('/admin/purchase/');
             } catch (mysqli_sql_exception $exception) {
                 echo $exception;
                 $db->rollback();
             }
-            redirect('/admin/purchase/');
         }
     }
 }

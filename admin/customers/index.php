@@ -11,6 +11,7 @@ $stmt->execute();
 $users = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
+
 ?>
 
 <div class="admin-heading">
@@ -19,7 +20,7 @@ $stmt->close();
     <a class="link-button" style="background: #28bd37;" href="/admin/customers/add.php"><i class="fa-solid fa-add"></i>Add Customer</a>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 
 <div style="overflow-x:auto;">

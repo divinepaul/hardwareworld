@@ -121,6 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->close();
                 $db->commit();
                 
+                Messages::add("success","Product was added to cart successfully!");
                 redirect("/site/cart/view.php");
             } catch (mysqli_sql_exception $exception) {
                 echo $exception;

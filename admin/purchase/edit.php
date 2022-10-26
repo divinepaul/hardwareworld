@@ -171,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->close();
             }
             $db->commit();
+            Messages::add("success","Purchase id '{$id}' was edited successfully!");
             redirect('/admin/purchase/');
         } catch (mysqli_sql_exception $exception) {
             echo $exception;

@@ -23,7 +23,7 @@ $id = $_GET['id'];
 
 <?php
 
-$name_input = new Input("brand_name","Brand Name",30,5);
+$name_input = new Input("brand_name","Brand Name",30,3);
 $name_description = new Input("brand_description","Brand Description",INF,5,"textarea");
 
 $form= new Form(
@@ -38,6 +38,7 @@ $form->sql_pk_name = "brand_id";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","Brand {$name_input->value} was edited successfully!");
         redirect("/admin/brands/");
     } 
 }

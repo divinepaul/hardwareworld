@@ -40,41 +40,39 @@ foreach($categories as $key => $category){
 
 
 ?>
-<link rel="stylesheet" href="/static/css/home.css"> 
+<link rel="stylesheet" href="/static/css/category.css"> 
 
 <div class="category-main-container">
     <h1> Categories Available</h1>
     <?php
     foreach ($categories as $category) {
+        if(count($category['subcategories']) > 0){
         echo '<div class="category-container">';
             echo "<h1>{$category['category_name']}s</h1>";
             echo '<br>';
             echo "<p class=\"category-description\">{$category['category_description']}</p>";
-            echo '<br>';
             echo '<div class="subcategory-container">';
             foreach ($category['subcategories'] as $subcategory) {
                 if($subcategory['product']){
                 echo '<div class="subcategory-item">';
                     echo "<h1>{$subcategory['subcategory_name']}</h1>";
+                    echo "<p>{$subcategory['subcategory_description']}</p>";
+                    echo "<br>";
                     echo '<img class="product-image" src="/site/products/image.php?id='.$subcategory['product']['product_id'].'" loading="lazy"/>';
                     echo "<p>{$subcategory['product']['product_name']}</p>";
                     echo '<br>';
-                    echo '<br>';
-                    echo "<a class=\"link-button\" href=\"/site/products?q={$subcategory['subcategory_name']}\"></i>View More Products</a>";
+                    echo "<a class=\"link-button\" href=\"/site/products?q={$subcategory['subcategory_name']}\"></i>View More {$subcategory['subcategory_name']}</a>";
                 echo '</div>';
                 }
             }
             echo '</div>';
         echo'</div>';
+        }
 
     }
     ?>
 </div>
 
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>

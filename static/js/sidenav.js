@@ -6,3 +6,14 @@ document.querySelector("#side-menu").addEventListener("change",(event)=> {
         document.querySelector(".sidebar").style.display = "none";
     }
 });
+
+let seconds = 7000;
+document.querySelectorAll(".message-container").forEach(messageElement => {
+    messageElement.addEventListener("click",()=>{
+        messageElement.remove();
+    });
+    setTimeout(() => {
+        messageElement.remove();
+    },seconds);
+    seconds+=1000;
+});

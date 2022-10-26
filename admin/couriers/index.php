@@ -37,7 +37,7 @@ $stmt->close();
     <a class="link-button" style="background: #28bd37;" href="/admin/couriers/add.php"><i class="fa-solid fa-add"></i>Add Courier</a>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 
 <div style="overflow-x:auto;">
@@ -60,7 +60,7 @@ $stmt->close();
 
 <?php
 foreach ($users as $user) {
-    echo "<tr>";
+    echo "<tr class=\"".($user['status'] == 1 ? "row-active":"row-inactive")."\">";
     echo "<td>{$user['courier_id']}</td>";
     echo "<td>{$user['email']}</td>";
     echo "<td>{$user['courier_name']}</td>";

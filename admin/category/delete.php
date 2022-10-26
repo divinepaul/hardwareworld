@@ -23,6 +23,7 @@ $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 if($user['status'] == 1){
+    Messages::add("warning","All subcategories and products under the selected category has been also disabled.");
     $stmt = $db->prepare("UPDATE tbl_category SET status=0 WHERE category_id=?");
     $stmt2 = $db->prepare("UPDATE tbl_subcategory SET status=0 WHERE category_id=?");
     $stmt2->bind_param("i",$id);
@@ -42,6 +43,7 @@ if($user['status'] == 1){
     }
 
 } else {
+    Messages::add("info","The subcategories and products under the selected category must be individualy enabled.");
     $stmt = $db->prepare("UPDATE tbl_category SET status=1 WHERE category_id=?");
 }
 $stmt->bind_param("i",$id);

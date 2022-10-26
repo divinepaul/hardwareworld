@@ -294,7 +294,44 @@ th {
 tr:nth-child(even){background-color: #ddd;}
 tr:nth-child(odd){background-color: #eee;}
 
+.message-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Roboto', sans-serif;
+    align-items: center;
+    padding: 10px 30px;
+    border-radius: 5px;
+    background: red;
+    color: white;
+    margin: 10px 0;
+}
+.message-container:hover {
+    cursor: pointer;
+}
+.message-container .error {
+    background: #f22c3c;
+}
+.info {
+    background: #470FBC; 
+}
+.warning {
+    background: #bda022;
+}
+.success {
+    background: #28bd37;
+}
+.message-container p {
+    color: white;
+}
+.message-container i {
+    color: white;
+    margin: 0;
+}
 
+.message-container i:hover {
+    cursor: pointer;
+}
 #map { height: 100%; width:100%; }
 
 @media only screen and (max-width: 768px) {

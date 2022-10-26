@@ -29,7 +29,7 @@ $stmt->close();
     <a class="link-button" style="background: #28bd37;" href="/admin/subcategory/add.php"><i class="fa-solid fa-add"></i>Add Subcategory</a>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 
 <div style="overflow-x:auto;">

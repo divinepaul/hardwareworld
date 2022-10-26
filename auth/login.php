@@ -5,8 +5,9 @@ include("../lib/all_lib.php");
 include("../partials/header.php"); 
 ?>
 
+<link rel="stylesheet" href="/static/css/auth.css"> 
 <div class="form-main">
-<h1> Log in </h1>
+<h1> Log in  </h1>
 <br>
 
 <?php
@@ -20,7 +21,7 @@ $form->submit_button_text = "Login";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()){
         // fetch user from database
-        $stmt = $db->prepare("SELECT * FROM tbl_login WHERE email = ?");
+        $stmt = $db->prepare("SELECT * FROM tbl_login WHERE email = ? AND status=1");
         $stmt->bind_param("s", $email_input->value);
         $stmt->execute();
         $user = $stmt->get_result()->fetch_assoc();
@@ -37,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $_SESSION['user'] = $user;
             if($user['type'] == "admin") {
-                redirect('/admin/customers');
+                redirect('/admin/');
             } else if($user['type'] == "staff") {
-                redirect('/admin/products');
+                redirect('/admin/');
             } else if($user['type'] == "courier") {
                 redirect('/admin/delivery');
             } else {
@@ -51,4 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $form->render();
 ?>
 </div>
+
+<div class="canvas-logo">
+    <canvas id="canvas"></canvas>
+    <h1>hardware <br> world </h1>
+</div>
+
+
+<script src="/static/js/canvas.js"></script>
+
+
 

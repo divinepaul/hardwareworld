@@ -21,7 +21,7 @@ class Form {
         $is_valid = true;
         foreach ($this->inputs as $i => $input) {
             if(isset($_POST[$input->name])){
-                $input->value = $_POST[$input->name]; 
+                $input->value = trim($_POST[$input->name]); 
             } else {
                 $input->value = ""; 
             }

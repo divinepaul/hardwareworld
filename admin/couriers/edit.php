@@ -48,6 +48,7 @@ $form->sql_pk_name = "courier_id";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","Courier '{$name_input->value}' was edited successfully!");
         redirect("/admin/couriers/");
     } 
 }

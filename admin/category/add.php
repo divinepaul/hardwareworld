@@ -26,6 +26,7 @@ $form->submit_button_text = "Add";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()){
         $form->save();
+        Messages::add("success","Category was added successfully!");
         redirect('/admin/category/');
     }
 }

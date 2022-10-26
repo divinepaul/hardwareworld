@@ -115,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo $exception; 
                 $db->rollback();
             }
+            Messages::add("success","Staff '{$fname_input->value}' was added successfully!");
             redirect('/admin/staff/');
         }
     }

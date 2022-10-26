@@ -44,6 +44,22 @@ $stmt->execute();
 $products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
+
+$subcategory_input = new Input("subcategory_id","Category",INF,INF,"select");
+$subcategory_input->mysqli_pk_name = "subcategory_id";
+$subcategory_input->mysqli_select_attribute = "subcategory_name";
+$subcategory_input->mysqli_table = "tbl_subcategory";
+$subcategory_input->mysqli_type = "i";
+$subcategory_input->fetchSelectValues();
+
+
+$brand_input = new Input("brand_id","Brand",INF,INF,"select");
+$brand_input->mysqli_pk_name = "brand_id";
+$brand_input->mysqli_select_attribute = "brand_name";
+$brand_input->mysqli_table = "tbl_brand";
+$brand_input->mysqli_type = "i";
+$brand_input->fetchSelectValues();
+
 ?>
 <link rel="stylesheet" href="/static/css/products.css"> 
 <div class="products-container">
@@ -57,12 +73,13 @@ $stmt->close();
             echo "<input name=\"q\" class=\"searchbar-input\" type=\"text\" placeholder=\"Search for a product\"   >";
         }
     ?>
-        <input type="submit" value="Search">
+    <input type="submit" value="Search">
     </div>
 </div>
+<div>
 <?php
 if(!$products) {
-    echo "<p> No product found </p>";
+    echo "<p class=\"no-product-found-text\"> No product found </p>";
 }
 foreach ($products as $product) {
     echo "<div class=\"product-container\">";
@@ -90,5 +107,6 @@ foreach ($products as $product) {
 echo '</div></a>';
 }
 ?>
+<div>
 
 </div>

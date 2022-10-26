@@ -47,13 +47,12 @@ $stmt = $db->prepare("SELECT
         ON tbl_payment.courier_id = tbl_courier.courier_id
     INNER JOIN tbl_card
         ON tbl_payment.card_id = tbl_card.card_id
-    WHERE 
+    WHERE tbl_cart_master.cart_master_id = ? AND (
         tbl_cart_master.status = 'payment-complete'
         OR tbl_cart_master.status = 'shipped'
         OR tbl_cart_master.status = 'in-transit'
         OR tbl_cart_master.status = 'out-for-delivery'
-        OR tbl_cart_master.status = 'delivered'
-        AND tbl_cart_master.cart_master_id = ? 
+        OR tbl_cart_master.status = 'delivered' ) 
     ORDER BY date_added DESC
 ");
 $stmt->bind_param("s",$id);
@@ -77,7 +76,7 @@ $form = new Form(
     $status_input
 );
 $form->sql_table = "tbl_cart_master";
-$form->sql_id = $id;
+$form->sql_id = $order['cart_master_id'];
 $form->sql_id_type = "s"; 
 $form->sql_pk_name = "cart_master_id"; 
 
@@ -85,6 +84,7 @@ $form->sql_pk_name = "cart_master_id";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","Delivery no {$order['delivery_id']} was updated successfully!");
         redirect("/admin/delivery/");
     } 
 }

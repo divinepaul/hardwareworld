@@ -104,6 +104,7 @@ $stmt->close();
     <h1> Categories Available</h1>
     <?php
     foreach ($categories as $category) {
+        if(count($category['subcategories']) > 0){
         echo '<div class="category-container">';
             echo "<h1>{$category['category_name']}s</h1>";
             echo '<br>';
@@ -124,6 +125,7 @@ $stmt->close();
             }
             echo '</div>';
         echo'</div>';
+        }
 
     }
     ?>

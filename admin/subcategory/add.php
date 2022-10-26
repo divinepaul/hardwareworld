@@ -33,6 +33,7 @@ $form->submit_button_text = "Add";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()){
         $form->save();
+        Messages::add("success","Subcategory '{$name_input->value}' was added successfully!");
         redirect('/admin/subcategory/');
     }
 }

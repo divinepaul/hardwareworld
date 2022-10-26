@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo $exception;
                 $db->rollback();
             }
+            Messages::add("success","Vendor '{$name_input->value}' was added successfully!");
             redirect('/admin/vendor/');
         }
     }

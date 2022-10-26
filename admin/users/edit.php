@@ -35,11 +35,11 @@ $userstatus_input = new Input("status","User Status");
 $userstatus_input->type = "select";
 $userstatus_input->mysqli_type = "i";
 $userstatus_input->selectOptions = array(
-    0 => "active", 
-    1 => "inactive",
+    1 => "active", 
+    0 => "inactive",
 );
 
-$form = new Form($email_input,$usertype_input,$userstatus_input);
+$form = new Form($email_input,$usertype_input);
 $form->sql_table = "tbl_login";
 $form->sql_id = $id;
 $form->sql_id_type = "s"; 
@@ -49,6 +49,7 @@ $form->sql_pk_name = "email";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","User was edited successfully!");
         redirect("/admin/users/");
     } 
 }

@@ -122,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $db->rollback();
             }
 
+            Messages::add("success","Courier was added successfully!");
 
             redirect('/admin/couriers/');
         }

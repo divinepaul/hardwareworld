@@ -56,6 +56,7 @@ $form->sql_pk_name = "staff_id";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","Staff '{$fname_input->value}' was edited successfully!");
         redirect("/admin/staff/");
     } 
 }

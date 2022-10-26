@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             $db->commit();
+            Messages::add("success","New Product was added successfully!");
             redirect('/admin/products/');
         } catch (mysqli_sql_exception $exception) {
             echo $exception;

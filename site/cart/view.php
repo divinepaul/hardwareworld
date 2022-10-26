@@ -76,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="products-container">
     <h1> Your Shopping Cart </h1>
 
+    <?php Messages::show(); ?>
+    <br>
     <div class="side-container">
 
         <div class="cart-products-container">

@@ -45,6 +45,7 @@ $form->sql_pk_name = "subcategory_id";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","Subcategory '{$name_input->value}' was edited successfully!");
         redirect("/admin/subcategory/");
     } 
 }

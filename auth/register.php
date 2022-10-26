@@ -5,6 +5,7 @@ include("../lib/all_lib.php");
 include("../partials/header.php"); 
 ?>
 
+<link rel="stylesheet" href="/static/css/auth.css"> 
 <div class="form-main">
 <h1> Register </h1>
 <br>
@@ -183,3 +184,11 @@ echo "<br>";
 
 </div>
 
+
+<div class="canvas-logo">
+    <canvas id="canvas"></canvas>
+    <h1>hardware <br> world </h1>
+</div>
+
+
+<script src="/static/js/canvas.js"></script>

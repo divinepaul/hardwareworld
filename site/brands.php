@@ -28,12 +28,13 @@ foreach($brands as $key => $brand){
 
 
 ?>
-<link rel="stylesheet" href="/static/css/home.css"> 
+<link rel="stylesheet" href="/static/css/category.css"> 
 
 <div class="category-main-container">
     <h1> Brands Available</h1>
     <?php
     foreach ($brands as $brand) {
+        if(count($brand['products']) > 0){
         echo '<div class="category-container">';
             echo "<h1>{$brand['brand_name']}</h1>";
             echo '<br>';
@@ -54,6 +55,7 @@ foreach($brands as $key => $brand){
             }
             echo '</div>';
         echo'</div>';
+        }
 
     }
     ?>

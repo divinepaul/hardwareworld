@@ -134,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="orders-main-container">
     <h1>Your Orders</h1>
+    <?php Messages::show(); ?>
     <div class="order-tabs-container">
     <a href="/site/orders/?type=paid" class="<?php echo isTabSelected("?type=paid");?>">Your Orders</a>
         <a href="/site/orders/?type=open" class="<?php echo isTabSelected("?type=open");?>">Open Orders</a>

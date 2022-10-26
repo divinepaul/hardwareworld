@@ -38,6 +38,7 @@ $form->sql_pk_name = "category_id";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($form->validate()) {
         $form->save();
+        Messages::add("success","Category {$name_input->value} was edited successfully!");
         redirect("/admin/category/");
     } 
 }

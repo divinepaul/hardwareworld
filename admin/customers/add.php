@@ -111,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $db->rollback();
             }
 
+            Messages::add("success","Customer was added successfully!");
 
             redirect('/admin/customers/');
         }

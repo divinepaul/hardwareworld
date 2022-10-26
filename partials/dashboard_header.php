@@ -37,8 +37,13 @@
 <main>
 
 <div class="sidebar">
-    <h1 class="sidebar-header">DASHBOARD</h1>
     <?php 
+    if(check_role("admin","staff")){
+        echo "<a href=\"/admin/\"><h1 class=\"sidebar-header\">DASHBOARD</h1></a>";
+    } else {
+        echo "<h1 class=\"sidebar-header\">DASHBOARD</h1>";
+
+    }
     if(check_role("admin")){
     echo "<a href=\"/admin/users\" class=\"sidebar-item ".isSidebarItemActive("/admin/users")."\">
         <i class=\"fa-solid fa-user\"></i>

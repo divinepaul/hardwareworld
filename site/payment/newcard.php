@@ -145,6 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             $db->commit();
+
+            Messages::add("success","Payment completed successfully!");
             redirect("/site/orders/?type=paid");
 
             } catch (Exception $exception) {

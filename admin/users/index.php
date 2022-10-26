@@ -19,7 +19,7 @@ $stmt->close();
     <a class="link-button" style="background: #28bd37;" href="/admin/users/add.php"><i class="fa-solid fa-add"></i>Add User</a>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 <div style="overflow-x:auto;">
 <table>

@@ -105,7 +105,7 @@ getCartItmes($orders,true);
     <div>
     </div>
 </div>
-
+<?php Messages::show(); ?>
 <br>
 
 <div style="overflow-x:auto;">
