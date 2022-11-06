@@ -64,7 +64,7 @@ $cards = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 if($cards){
     foreach ($cards as $key => $value) {
-        $cardcvv_input = new Input("card_cvv","CVV/CVC",3,3,"text","i");
+        $cardcvv_input = new Input("card_cvv","CVV/CVC",3,3,"password","i");
         $cardcvv_input->displayLabel = false;
         $form = new Form(
             $cardcvv_input
@@ -84,7 +84,7 @@ $cardexp_year_input = new Input("card_exp_year","Year",4,4,"text","i");
     $cardexp_year_input->displayLabel = false;
 $cardexp_month_input = new Input("card_exp_month","Month",2,1,"text","i");
     $cardexp_month_input->displayLabel = false;
-$cardcvv_input = new Input("card_cvv","CVV/CVC",3,3,"text","i");
+$cardcvv_input = new Input("card_cvv","CVV/CVC",3,3,"password","i");
 $hidden_input      = new Input("hidden","hidden",INF,INF,"hidden");
 
 $form = new Form(

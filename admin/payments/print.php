@@ -1,10 +1,9 @@
 <?php
-$Title = 'Dashboard | Payments'; 
 include("../../config/all_config.php"); 
 include("../../lib/all_lib.php"); 
+include("../../lib/fpdf.php"); 
 check_auth_redirect_if_not();
 check_role_or_redirect("staff","admin");
-include("../../partials/dashboard_header.php"); 
 
 $dateError = NULL;
 function validateDate($date, $format = 'Y-m-d'){
@@ -47,7 +46,7 @@ $DATED_SQL = "SELECT
         OR tbl_cart_master.status = 'in-transit'
         OR tbl_cart_master.status = 'out-for-delivery'
         OR tbl_cart_master.status = 'delivered' )
-    ORDER BY tbl_cart_master.status DESC";
+    ORDER BY tbl_payment.date";
 
 $NORMAL_SQL = "SELECT 
     tbl_order.order_id,
@@ -68,7 +67,7 @@ $NORMAL_SQL = "SELECT
         OR tbl_cart_master.status = 'in-transit'
         OR tbl_cart_master.status = 'out-for-delivery'
         OR tbl_cart_master.status = 'delivered'
-    ORDER BY tbl_cart_master.status DESC";
+    ORDER BY tbl_payment.date";
 
 $stmt = $db->prepare($NORMAL_SQL);
 if($dated){
@@ -107,105 +106,129 @@ foreach ($carts as $i => $cart) {
     $stmt->close();
     $total_cost = 0; 
     foreach ($cartItems as $key => $item) {
-        $price = getOldProductPrice($item['product_id'],$cart['order_id']) * $item['quantity'];
+        $price = getOldProductPrice($item['product_id'],$cart['order_id']);
         $cartItems[$key]['price'] = $price;  
-        $total_cost += $price;
+        $total_cost += ($price * $item['quantity']);
     }
     $carts[$i]['total_cost'] = $total_cost;
     $carts[$i]['cart_items'] = $cartItems;
 }
 
 
-?>
 
-<div class="admin-heading">
-    <h1> Paid Orders </h1>
-    <div>
-    <!--<a class="link-button" style="background: #28bd37;" href="/admin/cart/new.php"><i class="fa-solid fa-add"></i>New Purchase</a>-->
-    <a class="link-button" onclick="openPrintOrders()">View or Print Report</a>
-    </div>
-</div>
-
-<form>
-    <label style="display:inline-block">From</label>
-    <?php
-    if($dated){
-        echo "<input style=\"margin-right: 50px\" value=\"{$_GET['start_date']}\" name=\"start_date\" type=\"date\">";
-    } else {
-        echo "<input style=\"margin-right: 50px\" name=\"start_date\" type=\"date\">";
-    }
-    ?>
-
-    <label style="display:inline-block">To</label>
-
-    <?php
-    if($dated){
-        echo "<input style=\"margin-right: 50px\" value=\"{$_GET['end_date']}\" name=\"end_date\" type=\"date\">";
-    } else {
-        echo "<input style=\"margin-right: 50px\" name=\"end_date\" type=\"date\">";
-    }
-    ?>
-
-    <input style="display:inline-block;margin:0 20px;" type="submit" value="Filter">
-</form>
-<?php
-if(isset($_GET['start_date']) && 
-   isset($_GET['end_date']) && 
-   $dateError
-){
-    echo "<p style=\"margin-top: 20px;\" class=\"error\">{$dateError}</p>";
-    die();
+class PDF extends FPDF
+{
+function Header(){
+}
+function Footer()
+{
+    // Position at 1.5 cm from bottom
+    $this->SetY(-15);
+    // Arial italic 8
+    $this->SetFont('Arial','I',8);
+    // Page number
+    $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
 }
 
-Messages::show(); 
+function FancyTable($header, $cart)
+{
+    // Colors, line width and bold font
+    $this->SetFillColor(255,255,255);
+    $this->SetTextColor(0);
+    //$this->SetDrawColor(128,0,0);
+    $this->SetLineWidth(.5);
+    $this->SetFont('Arial','B',10);
+    // Header
+    $w = array(130, 18, 15, 25);
+    $this->SetFillColor(53, 98, 222);
+    $this->SetTextColor(255);
+    for($i=0;$i<count($header);$i++)
+    $this->Cell($w[$i],8,$header[$i],1,0,'C',true);
+    $this->SetFillColor(220,220,220);
+    $this->SetTextColor(0);
+    $this->Ln();
+    // Color and font restoration
+    $this->SetTextColor(0);
+    $this->SetFont('Arial','',10);
+    // Data
+    $fill = false;
 
-if(!$carts){
-    echo "<p style=\"font-family: Roboto;margin-top: 20px;\" >No orders found in that period.</p>";
-    die();
-}
-?>
-<br>
-
-<div style="overflow-x:auto;">
-<table>
-    <tr>
-    <th>Order Id</th>
-    <th>Cusomter Email</th>
-    <th>Payment Date</th>
-    <th>Subtotal</th>
-    <th>Status</th>
-    <th colspan="5">Order Details</th>
-<?php
-    foreach ($carts as $i => $cart) {
-        echo "<tr>";
-        $productCount = count($cart['cart_items']);
-        $productCount += 2;
-        echo "<td rowspan=\"$productCount\">{$cart['order_id']}</td>";
-        echo "<td rowspan=\"$productCount\">{$cart['email']}</td>";
-        echo "<td rowspan=\"$productCount\">{$cart['date_added']}</td>";
-        echo "<td rowspan=\"$productCount\">₹{$cart['total_cost']}</td>";
-        echo "<td rowspan=\"$productCount\">{$cart['status']}</td>";
-        echo "</tr>";
-        echo "<tr class=\"".($cart['status'] != "deleted" ? "row-active":"row-inactive")."\">";
-            echo "<th>id</th>";
-            echo "<th>Product Image</th>";
-            echo "<th>Product</th>";
-            echo "<th>Price</th>";
-            echo "<th>Quantity</th>";
-        echo "</tr>";
-        foreach($cart['cart_items'] as $j => $cartItem){
-            //$productName = (strlen($cartItem['product_name']) > 50) ? substr($cartItem['product_name'],0,25).'...' : $cartItem['product_name'];
-            echo "<tr>";
-                echo "<td>{$cartItem['cart_child_id']}</td>";
-                echo '<td><img src="/site/products/image.php?id='.$cartItem['product_id'].'" loading="lazy"/></td>';
-                echo "<td>{$cartItem['product_name']}</td>";
-                echo "<td>₹{$cartItem['price']}</td>";
-                echo "<td>{$cartItem['quantity']}</td>";
-            echo "</tr>";
+    foreach ($cart['cart_items'] as $i => $product) 
+    {
+        $fill = !$fill;
+        $y = $this->GetY();
+        $x = $this->GetX() + $w[0];
+        $x0 = $this->GetX();
+        $this->SetFont('Arial','',10);
+        $this->MultiCell($w[0],15,"",'LR','L',$fill);
+        $this->SetXY($x0, $y);
+        $this->MultiCell($w[0],7.5,$product['product_name'],'LRT','L',$fill);
+        $this->SetXY($x, $y);
+        $this->SetFont('Arial','',12);
+        $x = $this->GetX() + $w[1];
+        $this->MultiCell($w[1],15,$product['quantity'],'LRBT','C',$fill);
+        $this->SetXY($x, $y);
+        $x = $this->GetX() + $w[2];
+        $this->MultiCell($w[2],15,$product['price'],'LRBT','C',$fill);
+        $this->SetXY($x, $y);
+        $x = $this->GetX() + $w[3];
+        $this->MultiCell($w[3],15,$product['price'] * $product['quantity'],'LRBT','R',$fill);
+        $this->SetXY($x, $y);
+        $this->Ln();
+        $this->Cell(array_sum($w),0,"",'TB');
+        $this->Ln();
+        if($i == 11){
+            $this->AddPage();
         }
-        echo "<tr>";
-        echo "</tr>";
+        if($i == 11+17){
+            $this->AddPage();
+        }
+        if($i == 11+17+17){
+            $this->AddPage();
+        }
     }
+    $this->Ln();
+}
+}
+
+// Instanciation of inherited class
+$pdf = new PDF();
+$pdf->AliasNbPages();
+$pdf->SetMargins(10, 10);
+$pdf->AddPage();
+
+$pdf->SetFont('Arial','B',13);
+// Title
+$pdf->SetFillColor(230,230,0);
+$pdf->SetLineWidth(0.4);
+$pdf->Cell(190,10,'Order Report | hardwareworld.xyz',0,0,'C');
+// Line break
+$pdf->Ln(20);
+
+foreach ($carts as $i => $cart) {
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(100,10,"Order Number : {$cart['order_id']}");
+    $pdf->Ln();
+    $pdf->Cell(40,10,"Purchase date : ".date("F j, Y, g:i a",strtotime($cart['date_added'])));
+    $pdf->Ln();
+    $pdf->Cell(40,10,"Bought by: {$cart['email']}");
+    $pdf->Ln();
+
+    $titles = array("Product Name","Quantity","Price","Total");
+    $pdf->FancyTable($titles,$cart);
+
+    $pdf->Ln();
+    $pdf->SetFont('Arial','B',13);
+    $pdf->Cell($pdf->GetPageWidth()-21,20,"Total Cost: Rs. {$cart['total_cost']}",0,0,'R',0);
+
+    if(count($carts)-1 != $i){
+        $pdf->AddPage();
+    }
+}
+
+
+$pdf->Output();
+//var_dump($order);
+// Colored table
+
 ?>
-</table>
-</div>

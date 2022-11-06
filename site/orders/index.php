@@ -47,6 +47,7 @@ if(isTabSelectedBool("?type=open")){
 } else {
     $stmt = $db->prepare("SELECT 
         tbl_payment.order_id, 
+        tbl_payment.payment_id, 
         tbl_customer.customer_id,
         tbl_customer.customer_fname,
         tbl_customer.customer_lname,
@@ -199,6 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo "<p><b>Payment Date</b><br>". date("F j, Y, g:i a",strtotime($order['date_added'])) .  "</p>";
                         echo "<p><b>Card Used</b><br> {$card_no}</p>";
                         echo "<p><b>SubTotal</b><br>₹{$order['subtotal']}</p>";
+                        echo "<a  class=\"link-button\" target=\"_blank\" href=\"/site/orders/invoice.php?id={$order['payment_id']}\">View or Print Invoice</a>";
                     echo '</div>';
                     echo '<div class="delivery-container">';
                         $address = "{$order['customer_fname']} {$order['customer_lname']} <br>

@@ -66,6 +66,41 @@ function getDeletedCartMaster($customer_id) {
     return $cart_master;
 }
 
+function getIfProductInCart($product_id){
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM tbl_customer WHERE email = ?");
+    $stmt->bind_param("s", $_SESSION['user']['email']);
+    $stmt->execute();
+    $customer = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    $stmt = $db->prepare("SELECT * FROM tbl_cart_child 
+        INNER JOIN tbl_cart_master 
+            ON tbl_cart_master.cart_master_id = tbl_cart_child.cart_master_id 
+        WHERE tbl_cart_master.customer_id = ? AND product_id = ? AND status = 'in cart'
+        ");
+    $stmt->bind_param("ii", $customer['customer_id'],$product_id);
+    $stmt->execute();
+    $cart_product = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    return $cart_product;
+}
+
+function checkExisitingQuantity($user_quantity,$product_id){
+    $cart_child = getIfProductInCart($product_id);
+    if(!$cart_child){
+        return true;
+    }
+    $stock = getProductStock($product_id);
+
+    if(($cart_child['quantity'] + $user_quantity) <= $stock){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
 $quantity_input = new Input("quantity","Quantity",INF,INF,"number","i");
 $quantity_input->value = 1;
 $hidden_input   = new Input("hidden","hidden",INF,INF,"hidden");
@@ -85,6 +120,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         else if(((int)$quantity_input->value) > $stock){
             array_push($hidden_input->errors,"Quantity cannot excced available stock of $stock");
+        }
+        else if(!checkExisitingQuantity((int)$quantity_input->value,$id)){
+            array_push($hidden_input->errors,"Quantity cannot excced available stock of $stock when item already exists in cart.");
         } else {
             $stmt = $db->prepare("SELECT * FROM tbl_customer WHERE email = ?");
             $stmt->bind_param("s", $_SESSION['user']['email']);
@@ -112,13 +150,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $cart_master = getCartMaster($customer['customer_id']);
                 }
-                $stmt = $db->prepare("INSERT INTO tbl_cart_child
-                    (cart_master_id,product_id,quantity) 
-                    VALUES (?,?,?)");
-                $status = 'in cart';
-                $stmt->bind_param("iii", $cart_master['cart_master_id'],$product['product_id'],$quantity_input->value);
-                $stmt->execute();
-                $stmt->close();
+                $cart_child = getIfProductInCart($id);
+                if(!$cart_child){
+                    $stmt = $db->prepare("INSERT INTO tbl_cart_child
+                        (cart_master_id,product_id,quantity) 
+                        VALUES (?,?,?)");
+                    $status = 'in cart';
+                    $stmt->bind_param("iii", $cart_master['cart_master_id'],$product['product_id'],$quantity_input->value);
+                    $stmt->execute();
+                    $stmt->close();
+                } else {
+                    $stmt = $db->prepare("UPDATE tbl_cart_child SET quantity = quantity + ? WHERE cart_child_id = ?");
+                    $stmt->bind_param("ii",$quantity_input->value,$cart_child['cart_child_id']);
+                    $stmt->execute();
+                    $stmt->close();
+                }
                 $db->commit();
                 
                 Messages::add("success","Product was added to cart successfully!");

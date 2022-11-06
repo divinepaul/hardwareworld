@@ -109,24 +109,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $master_id = $db->insert_id;
 
+                $ids = array();
+                $last_insert_ids = array();
+
                 for ($i=0; $i < count($purchase_inputs); $i++) { 
                     $purchase_child_inputs = $purchase_inputs[$i];
                     $PURCHASE_CHILD_INSERT_SQL = "
                         INSERT INTO tbl_purchase_child (purchase_master_id,product_id,cost_price,selling_price,quantity)
                         VALUES (?,?,?,?,?)
                     ";
-                    $stmt = $db->prepare($PURCHASE_CHILD_INSERT_SQL);
+                    $PURCHASE_CHILD_UPDATE_SQL = "
+                        UPDATE tbl_purchase_child SET quantity=quantity + ?
+                        WHERE purchase_child_id = ? 
+                    ";
                     $childParams = array($master_id);
                     for ($j=0; $j < count($purchase_child_inputs) ; $j++) { 
                         array_push($childParams,$purchase_child_inputs[$j]->value);
                     }
-                    $stmt->bind_param("iiiii",
-                        ...$childParams
-                    );
-
-                    $stmt->execute();
-                    $stmt->close();
+                    if(array_search($childParams[1],$ids) === false){
+                        $stmt = $db->prepare($PURCHASE_CHILD_INSERT_SQL);
+                        array_push($ids,$childParams[1]);
+                        $stmt->bind_param("iiiii",
+                            ...$childParams
+                        );
+                        $stmt->execute();
+                        array_push($last_insert_ids,$db->insert_id);
+                        $stmt->close();
+                    } else {
+                        $stmt = $db->prepare($PURCHASE_CHILD_UPDATE_SQL);
+                        $quantity = $childParams[4];
+                        $index = array_search($childParams[1],$ids);
+                        $purchase_child_id = $last_insert_ids[$index];
+                        var_dump($purchase_child_id);
+                        $stmt->bind_param("ii",$quantity,$purchase_child_id);
+                        $stmt->execute();
+                        $stmt->close();
+                    }
                 }
+
                 $db->commit();
 
                 Messages::add("success","Purchase was added successfully!");

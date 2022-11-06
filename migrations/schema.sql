@@ -10,6 +10,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `books`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `books` (
+  `bookno` int(11) NOT NULL,
+  `title` varchar(30) DEFAULT NULL,
+  `author` varchar(30) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  PRIMARY KEY (`bookno`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `product`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(30) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `unit_cost` int(11) DEFAULT NULL,
+  `tax_rate` int(11) DEFAULT NULL,
+  `expiry` date DEFAULT NULL,
+  PRIMARY KEY (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `schema_migrations`
 --
 
@@ -19,6 +52,23 @@ CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `student`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student` (
+  `admno` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
+  `address` varchar(30) DEFAULT NULL,
+  `father_name` varchar(30) DEFAULT NULL,
+  `mob_number` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`admno`)
+) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -34,7 +84,7 @@ CREATE TABLE `tbl_brand` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +154,7 @@ CREATE TABLE `tbl_category` (
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +180,7 @@ CREATE TABLE `tbl_courier` (
   KEY `staff_id` (`staff_id`),
   CONSTRAINT `tbl_courier_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`),
   CONSTRAINT `tbl_courier_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +296,7 @@ CREATE TABLE `tbl_product` (
   KEY `subcategory_id` (`subcategory_id`),
   CONSTRAINT `tbl_product_ibfk_1` FOREIGN KEY (`brand_id`) REFERENCES `tbl_brand` (`brand_id`),
   CONSTRAINT `tbl_product_ibfk_2` FOREIGN KEY (`subcategory_id`) REFERENCES `tbl_subcategory` (`subcategory_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +317,7 @@ CREATE TABLE `tbl_purchase_child` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `tbl_purchase_child_ibfk_1` FOREIGN KEY (`purchase_master_id`) REFERENCES `tbl_purchase_master` (`purchase_master_id`),
   CONSTRAINT `tbl_purchase_child_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +337,7 @@ CREATE TABLE `tbl_purchase_master` (
   KEY `vendor_id` (`vendor_id`),
   CONSTRAINT `tbl_purchase_master_ibfk_1` FOREIGN KEY (`staff_id`) REFERENCES `tbl_staff` (`staff_id`),
   CONSTRAINT `tbl_purchase_master_ibfk_2` FOREIGN KEY (`vendor_id`) REFERENCES `tbl_vendor` (`vendor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,7 +362,7 @@ CREATE TABLE `tbl_staff` (
   PRIMARY KEY (`staff_id`),
   KEY `email` (`email`),
   CONSTRAINT `tbl_staff_ibfk_1` FOREIGN KEY (`email`) REFERENCES `tbl_login` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
