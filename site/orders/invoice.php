@@ -125,13 +125,7 @@ function FancyTable($header, $data)
     // Data
     $fill = false;
 
-    foreach ($order['products'] as $i => $product) {
-        array_push($order['products'],$product);
-        array_push($order['products'],$product);
-        array_push($order['products'],$product);
-        array_push($order['products'],$product);
-        array_push($order['products'],$product);
-    }
+
     foreach ($order['products'] as $i => $product) 
     {
         $fill = !$fill;
